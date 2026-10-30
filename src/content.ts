@@ -129,29 +129,30 @@ export const projects: Project[] = [
     image: '',
     // NEEDS APPROVAL — assembled from what Emmanuel described, not his own sentence.
     description:
-      'The commercial site for a fresh yoghurt business — online ordering and delivery, wholesale purchasing, and a directory of sales points.',
-    // NEEDS APPROVAL — matched to the stack he uses for projects of this kind.
-    stack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Node', 'Express 5', 'PostgreSQL'],
+      'The commercial site for a fresh yoghurt business — custom orders, delivery, wholesale purchasing, and a directory of the places you can buy it.',
+    stack: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'Prisma', 'Junipay'],
     facts: [
-      ['Scope', 'Commercial site'],
-      ['Ordering', 'Online + delivery'],
-      ['Trade', 'Wholesale purchasing'],
+      ['Ordering', 'Custom mixes'],
+      ['Trade', 'Wholesale'],
+      ['Locations', 'Pickup + vending'],
     ],
     // NEEDS APPROVAL — assembled from what Emmanuel described.
     overview:
-      'DrinkFresh is the commercial presence for a fresh yoghurt business. It covers online ordering and delivery, wholesale purchasing for trade customers, and a directory letting customers find sales joints and stations near them, alongside general publicity for the brand.',
+      'DrinkFresh is the commercial presence for a fresh yoghurt business. Customers build and customise their own orders for delivery, trade buyers purchase at wholesale, and anyone can find where to buy in person — pickup points, vending stations and general sales points for walk-ins. The site also carries the brand’s public-facing presence and publicity.',
     // NEEDS REAL VALUE — the hard problem. Section hidden until supplied.
     constraint: '',
     // NEEDS REAL VALUE — section hidden until supplied.
     architecture: [],
     // NEEDS REAL VALUE — section hidden until supplied.
     tradeoffs: [],
-    // NEEDS APPROVAL — matched to the stack he uses for projects of this kind.
     stackGroups: [
-      ['Frontend', 'React 19, Vite, TypeScript, Tailwind CSS, React Router'],
-      ['Backend', 'Node, Express 5, PostgreSQL, Prisma'],
-      ['Integrations', 'Mobile money payments, transactional email'],
-      ['Infrastructure', 'Railway'],
+      ['Frontend', 'Next.js 15 (App Router), TypeScript, Tailwind CSS'],
+      ['Backend', 'Next.js route handlers, PostgreSQL, Prisma'],
+      [
+        'Integrations',
+        'Junipay (mobile money), Cloudinary (product imagery), Brevo (order email), Arkesel (delivery SMS)',
+      ],
+      ['Infrastructure', 'Vercel, managed PostgreSQL'],
     ],
     current:
       'In development. Deployment is paused while the client finalises branding and related changes.',
