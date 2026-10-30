@@ -159,32 +159,38 @@ export const projects: Project[] = [
   },
 ]
 
-// NEEDS REAL VALUES — roles and dates. Waiting on an up-to-date CV.
+// Dates taken from the CV. NEEDS CONFIRMATION — the CV predates SwiftVote and the
+// commissioned work, and the wording of each entry is still to be approved.
 export const experience: [string, string, string][] = [
   [
-    'AI engineer, FarmaNet',
-    '',
-    'Contracted on a permanent basis. Building machine-learning systems for agricultural decision-making, including the crop yield estimator.',
+    'AI/ML engineer — FarmaNet',
+    'Jan 2026 — present',
+    'Contracted on a permanent basis. Machine-learning systems for agricultural decision-making, including the crop yield estimator.',
   ],
   [
+    // NEEDS REAL VALUE — start date for the commissioned work.
     'Commissioned software engineering',
     '',
-    'Delivering production systems for clients, including SwiftVote and DrinkFresh.',
+    'Production systems built for clients, including SwiftVote and DrinkFresh.',
   ],
   [
-    'IT national service, Electricity Company of Ghana',
-    '',
-    'Enterprise infrastructure support — server configuration, network maintenance, and coordinated recovery after a major fibre cut.',
+    'IT national service — Electricity Company of Ghana',
+    'Nov 2024 — Sep 2025',
+    'Enterprise IT and infrastructure support across branches: server and network maintenance, system deployment, and recovery of server-room failures.',
+  ],
+  [
+    'IT trainee — Electricity Company of Ghana',
+    'Sep 2023 — Nov 2023',
+    'Network hardware, cabling and configuration across a multi-department site, alongside senior engineers.',
   ],
 ]
 
-// NEEDS REAL VALUES — waiting on an up-to-date CV.
-export const education = {
-  qualification: 'BSc Computer Science',
-  institution: '',
-  year: '',
-  note: 'Software engineering, AI and machine learning.',
-}
+// Dates taken from the CV. NEEDS CONFIRMATION.
+export const education: { qualification: string; institution: string; year: string }[] = [
+  ['BSc Computer Science', 'Kwame Nkrumah University of Science and Technology', '2021 — 2024'],
+  ['Full Stack Development certificate', 'IBM', '2025 — present'],
+  ['Frontend Developer professional certificate', 'Meta', '2025 — present'],
+].map(([qualification, institution, year]) => ({ qualification, institution, year }))
 
 // NEEDS REVIEW — Emmanuel is sending the list he would actually claim.
 export const tools: [string, string][] = [

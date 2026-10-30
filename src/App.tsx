@@ -218,7 +218,7 @@ function About() {
         </div>
       </section>
       <InfoSection title="Experience">{experience.map(([title, date, desc]) => <div className="experience-row" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</InfoSection>
-      <InfoSection title="Education"><div className="education"><div><h3>{education.qualification}</h3><p>{education.note}</p></div><span>{education.institution || profile.location}</span></div></InfoSection>
+      <InfoSection title="Education">{education.map((item) => <div className="education" key={item.qualification}><div><h3>{item.qualification}</h3><p>{item.institution}</p></div><span>{item.year}</span></div>)}</InfoSection>
       <InfoSection title="Working tools"><div className="tools-grid">{tools.map(([label, value]) => <div key={label}><span>{label}</span><p>{value}</p></div>)}</div></InfoSection>
     </main>
   )
