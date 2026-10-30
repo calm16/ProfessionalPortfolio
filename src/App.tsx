@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode, useEffect, useState } from 'react'
+import { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
 import { education, experience, profile, projects, tools, type Project } from './content'
 
 function Icon({ name }: { name: 'arrow' | 'moon' | 'sun' | 'menu' | 'close' | 'download' | 'external' }) {
@@ -149,15 +149,9 @@ function CaseStudy({ project, navigate }: { project: Project; navigate: (path: s
       </header>
       <ProjectVisual project={project} featured />
       <div className="case-body">
-        <CaseSection number="01" title="What the system does"><p>{project.overview}</p></CaseSection>
-        <CaseSection number="02" title="The hard constraint"><p>{project.constraint}</p></CaseSection>
-        <CaseSection number="03" title="How it is built">
-          <p>The architecture keeps the user-facing application responsive while isolating specialised services and third-party dependencies behind explicit boundaries.</p>
-          <Architecture project={project} />
-        </CaseSection>
-        <CaseSection number="04" title="Engineering tradeoffs"><ul className="tradeoffs">{project.tradeoffs.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection>
-        <CaseSection number="05" title="Technology"><div className="stack-table">{project.stackGroups.map(([label, value]) => <div key={label}><span>{label}</span><b>{value}</b></div>)}</div></CaseSection>
-        <CaseSection number="06" title="Current status"><p>{project.current}</p><Status>{project.status}</Status></CaseSection>
+        {caseSections(project).map(({ title, body }, index) => (
+          <CaseSection number={String(index + 1).padStart(2, '0')} title={title} key={title}>{body}</CaseSection>
+        ))}
       </div>
       <nav className="case-pagination" aria-label="Project navigation">
         <button onClick={() => navigate(`/work/${previous.slug}`)}><span>Previous project</span><b>← {previous.shortTitle}</b></button>
@@ -167,14 +161,48 @@ function CaseStudy({ project, navigate }: { project: Project; navigate: (path: s
   )
 }
 
+// Sections with nothing real to say are left out rather than rendered empty,
+// so the numbering follows whatever the project actually has.
+function caseSections(project: Project): { title: string; body: ReactNode }[] {
+  const sections: { title: string; body: ReactNode }[] = [
+    { title: 'What the system does', body: <p>{project.overview}</p> },
+  ]
+  if (project.constraint) sections.push({ title: 'The hard problem', body: <p>{project.constraint}</p> })
+  if (project.architecture.length > 0) {
+    sections.push({ title: 'How it is built', body: <Architecture steps={project.architecture} /> })
+  }
+  if (project.tradeoffs.length > 0) {
+    sections.push({
+      title: 'Engineering tradeoffs',
+      body: <ul className="tradeoffs">{project.tradeoffs.map((item) => <li key={item}>{item}</li>)}</ul>,
+    })
+  }
+  sections.push({
+    title: 'Technology',
+    body: <div className="stack-table">{project.stackGroups.map(([label, value]) => <div key={label}><span>{label}</span><b>{value}</b></div>)}</div>,
+  })
+  sections.push({
+    title: 'Where it stands',
+    body: <><p>{project.current}</p><Status>{project.status}</Status></>,
+  })
+  return sections
+}
+
 function CaseSection({ number, title, children }: { number: string; title: string; children: ReactNode }) {
   return <section className="case-section"><div className="case-label"><span>{number}</span><h2>{title}</h2></div><div className="case-content">{children}</div></section>
 }
 
-function Architecture({ project }: { project: Project }) {
-  const middle = project.slug === 'swiftvote' ? 'API + transaction engine' : project.slug === 'farmanet' ? 'Spring Boot API' : 'Application layer'
-  const end = project.slug === 'swiftvote' ? 'Payments / USSD' : project.slug === 'farmanet' ? 'Django AI service' : 'Content + deployment'
-  return <div className="architecture"><div><span>01</span><b>React client</b></div><i>→</i><div><span>02</span><b>{middle}</b></div><i>→</i><div><span>03</span><b>{end}</b></div></div>
+function Architecture({ steps }: { steps: string[] }) {
+  return (
+    <div className="architecture">
+      {steps.map((step, index) => (
+        <Fragment key={step}>
+          {index > 0 && <i aria-hidden="true">→</i>}
+          <div><span>{String(index + 1).padStart(2, '0')}</span><b>{step}</b></div>
+        </Fragment>
+      ))}
+    </div>
+  )
 }
 
 function About() {

@@ -1,8 +1,8 @@
 // Every fact shown on the site lives here.
 //
 // Nothing in this file may be invented. If a value is not known, leave it as an
-// empty string — the components hide empty fields rather than render a guess.
-// Items marked NEEDS REAL VALUE are placeholders waiting on Emmanuel.
+// empty string or empty array — the components hide empty fields rather than
+// render a guess. Items marked NEEDS are waiting on Emmanuel.
 
 export type Project = {
   slug: string
@@ -18,6 +18,8 @@ export type Project = {
   facts: [string, string][]
   overview: string
   constraint: string
+  /** Service hops, in order. Empty hides the diagram. */
+  architecture: string[]
   tradeoffs: string[]
   stackGroups: [string, string][]
   current: string
@@ -27,11 +29,11 @@ export type Project = {
 export const profile = {
   name: 'Emmanuel Koranteng Ankamah',
   role: 'Software & AI Engineer',
-  location: 'Accra, Ghana',
+  location: 'Ghana',
   email: 'emmanuelkorantenga@gmail.com',
   linkedin: 'https://www.linkedin.com/in/emmanuel-koranteng-ankamah-2ab032330',
   github: 'https://github.com/calm16',
-  // NEEDS DECISION — one short line on what he is open to, or left empty to show nothing.
+  // NEEDS DECISION — one short line on what he is open to, or empty to show nothing.
   availability: '',
   // NEEDS REAL VALUE — portrait photograph, professional shoot booked.
   portrait: '',
@@ -42,120 +44,122 @@ export const projects: Project[] = [
     slug: 'swiftvote',
     title: 'SwiftVote',
     shortTitle: 'SwiftVote',
-    // NEEDS REAL VALUE — delivery year.
-    year: '',
-    client: 'Commissioned client',
+    year: '2026',
+    client: 'Elvis Innovations',
     status: 'Live',
     liveUrl: 'https://swiftvote.website',
     // NEEDS REAL VALUE — screenshot of the live product, placed in /public.
     image: '',
     description:
-      'Voting and ticketing infrastructure built around the realities of Ghanaian payments.',
-    stack: ['React 19', 'TypeScript', 'Node.js', 'Express 5', 'PostgreSQL', 'Prisma', 'Railway'],
+      'A voting and ticketing platform for Ghanaian campus awards shows, taking mobile-money payments over both the web and USSD.',
+    stack: ['React 19', 'TypeScript', 'Node', 'Express 5', 'PostgreSQL', 'Prisma', 'Railway'],
     facts: [
-      ['Channel', 'Web + USSD'],
+      ['Channels', 'Web + USSD'],
       ['Payments', 'Mobile money'],
-      ['Status', 'Live in production'],
+      ['Client', 'Elvis Innovations'],
     ],
     overview:
-      'SwiftVote gives event organisers one dependable place to run public voting, sell tickets, reconcile transactions, and follow live participation. Voters can use the web or a USSD session, with mobile-money payments recorded against the same event ledger.',
+      'Organisers create an event, open public nominations, approve nominees into contestants, and run paid voting with per-category pricing and discounted vote bundles. The public votes from the website or from any feature phone by dialling a shortcode — no internet, no app, no account. Every vote is tied to a confirmed mobile-money payment, and organisers watch standings, reconcile every collection attempt, and withdraw their earnings. A super admin approves events before anything reaches the public.',
     constraint:
-      'The system had to remain coherent across web and USSD while payment providers completed transactions asynchronously. A voter can lose connectivity, close a session, or receive a delayed confirmation; each vote and ticket still needs to be issued exactly once.',
+      'Collecting hundreds of one-cedi payments reliably, through a payment provider whose confirmation arrives seconds or minutes after the request, on a network where the voter may be on a feature phone that cannot hold a session. A vote that counts before the money confirms is fraud; a payment that confirms without its vote is theft. The two have to move together or not at all, across two channels, with no guarantee the confirmation ever arrives.',
+    architecture: ['React client / USSD shortcode', 'Express API and vote ledger', 'Junipay, Arkesel, Nalo'],
     tradeoffs: [
-      'A shared transaction state machine over channel-specific logic',
-      'Explicit idempotency at every payment callback boundary',
-      'Operational clarity and audit trails over premature automation',
+      'Trusted nothing the payment provider sent us. Their callbacks carry no signature, so the webhook treats the message as a rumour: it names a payment, and the server then asks the provider what actually happened before writing anything. Slower and chattier than acting on the callback, but a forged callback cannot create a vote, and a callback that never arrives is recovered by the same code asking later.',
+      'Derived every vote count instead of storing it. Totals are computed from individual vote records rather than kept as a running tally. That costs query time on every page. It buys figures that cannot drift — there is no counter to get out of step with reality after a failed payment or a refund.',
+      'Made morale votes impossible to count as revenue, structurally. Promotional votes carry no payment record at all, rather than a flag that revenue queries filter out. A filter can be forgotten in the next query someone writes; an absent foreign key cannot.',
     ],
     stackGroups: [
-      ['Frontend', 'React 19, Vite, Tailwind, TypeScript'],
-      ['Backend', 'Node.js, Express 5, PostgreSQL, Prisma'],
-      ['Integrations', 'Junipay (mobile money, web + USSD), Arkesel SMS, Brevo email, Cloudinary'],
-      ['Infrastructure', 'Railway'],
+      ['Frontend', 'React 19, Vite, TypeScript, Tailwind CSS v4, React Router'],
+      ['Backend', 'Node, Express 5, PostgreSQL, Prisma'],
+      [
+        'Integrations',
+        'Junipay (mobile money, web and USSD), Nalo and Arkesel (USSD shortcodes), Arkesel (SMS), Brevo (transactional email), Cloudinary (images)',
+      ],
+      ['Infrastructure', 'Railway — static site, Node service and Postgres, custom domains, CI from GitHub'],
     ],
-    current:
-      'Live in production, processing real mobile-money payments for campus awards and event ticketing.',
+    current: 'Live and taking real payments. Running events for the commissioning client.',
     tone: 'blue',
   },
   {
     slug: 'farmanet',
     title: 'FarmaNet crop yield estimator',
     shortTitle: 'FarmaNet',
-    // NEEDS REAL VALUE — start year of the engagement.
-    year: '',
+    year: '2026',
+    // NEEDS DECISION — how FarmaNet should be shown as the client.
     client: 'FarmaNet',
-    status: 'Approved, pending deployment',
+    status: 'Approved, pending integration',
     liveUrl: '',
-    // NEEDS REAL VALUE — internal interface screenshot, data masked if required.
+    // NEEDS REAL VALUE — estimator interface screenshot, data masked if required.
     image: '',
     description:
-      'A machine-learning system that estimates crop yield and harvest ahead of time.',
-    stack: ['React', 'Java', 'Spring Boot', 'Python', 'Django', 'Machine learning'],
+      'An ML-powered crop yield estimator that predicts yields across Ghana’s agroecological zones and, crucially, tells users how much to trust each prediction.',
+    stack: ['Python', 'Django REST', 'scikit-learn', 'pandas', 'Spring Boot', 'PostgreSQL'],
     facts: [
-      ['Interface', 'Internal web'],
-      ['Model', 'Yield estimation'],
-      ['Status', 'Stakeholder approved'],
+      ['Coverage', '10 crops, 5 zones'],
+      ['Model', 'Random Forest'],
+      ['Output', 'Yield + confidence'],
     ],
     overview:
-      'FarmaNet turns field and crop observations into an early estimate of likely yield and harvest timing. Agricultural companies and selected commercial farms use a focused internal interface to submit inputs and review model output.',
+      'Given a farm’s crop, region, size, and planting date, it predicts expected yield per unit area and returns a confidence level, a risk assessment, and a plain-language explanation of its reasoning. It’s built for a Ghanaian agri-tech platform connecting investors with farms, so the predictions feed real funding decisions. The system covers ten crops across all five of Ghana’s agroecological zones, handling everything from well-evidenced staples to sparse, unobserved crop-region combinations. What sets it apart is an “honesty layer” that separates how confident the model is from whether the planting decision is sound — two things most yield tools conflate.',
     constraint:
-      'A useful prediction needed to cross a mixed technology boundary without making the statistical model part of the operational application. The model also had to be candid about the limits of a still-growing training dataset.',
-    tradeoffs: [
-      'A separate Python inference service rather than embedding model code in Java',
-      'Stable prediction contracts between services',
-      'Deployment held until the training set supports responsible production use',
-    ],
+      'Training data was thin and unevenly distributed — a few hundred farms, concentrated in the north, with some crops and regions barely represented. A naive model would either refuse to answer outside its comfort zone or, worse, answer with false confidence. The core challenge was building a system that stays genuinely useful and honest under severe data scarcity: it had to give a sensible estimate for a crop-region it had never seen, while being transparent that it was extrapolating — rather than emitting a confident-looking number that could misdirect an investment.',
+    architecture: ['Estimator interface', 'Spring Boot / JSP host application', 'Django REST inference service'],
+    // Held back at Emmanuel's request. The section is hidden while this is empty.
+    tradeoffs: [],
     stackGroups: [
-      ['Frontend', 'React, Vite, TypeScript'],
-      ['Backend', 'Java, Spring Boot'],
-      ['AI service', 'Python, Django, Django REST Framework'],
-      ['Infrastructure', 'Container-ready services'],
+      ['Frontend', 'HTML, CSS, JavaScript estimator interface — migrating to JSP for the host application'],
+      ['Backend', 'Python, Django REST service; scikit-learn (Random Forest); pandas and NumPy for the data pipeline'],
+      ['Integrations', 'Consumed by a Spring Boot / JSP application over HTTP via a Jersey client; PostgreSQL-backed host platform'],
+      ['Infrastructure', 'Git and GitHub, PR-based workflow; served through the FarmaNet application stack'],
     ],
     current:
-      'Approved by stakeholders and running with selected clients. Deployment is pending a larger training dataset.',
+      'First version complete, tested across a full scenario matrix, and approved in a stakeholder demo. Currently being hardened and prepared for integration into the main FarmaNet Java application; the model and its intelligence layers are done, with live deployment pending integration and a further data-collection round.',
     tone: 'mist',
   },
   {
     slug: 'drinkfresh',
     title: 'DrinkFresh',
     shortTitle: 'DrinkFresh',
-    // NEEDS REAL VALUE — delivery year.
+    // NEEDS REAL VALUE — start year.
     year: '',
     client: 'DrinkFresh',
-    status: 'Delivered',
+    status: 'In development',
     liveUrl: '',
-    // NEEDS REAL VALUE — screenshot, if the site is still reachable.
+    // NEEDS REAL VALUE — screenshot once there is something to show.
     image: '',
+    // NEEDS APPROVAL — assembled from what Emmanuel described, not his own sentence.
     description:
-      'A product web application delivered from initial requirements through deployment.',
-    // NEEDS REVIEW — stack taken from the previous portfolio and may be out of date.
-    stack: ['JavaScript', 'HTML', 'CSS', 'REST APIs'],
+      'The commercial site for a fresh yoghurt business — online ordering and delivery, wholesale purchasing, and a directory of sales points.',
+    // NEEDS APPROVAL — matched to the stack he uses for projects of this kind.
+    stack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Node', 'Express 5', 'PostgreSQL'],
     facts: [
-      ['Scope', 'End to end'],
-      ['Type', 'Product web app'],
-      ['Role', 'Full-stack developer'],
+      ['Scope', 'Commercial site'],
+      ['Ordering', 'Online + delivery'],
+      ['Trade', 'Wholesale purchasing'],
     ],
+    // NEEDS APPROVAL — assembled from what Emmanuel described.
     overview:
-      'DrinkFresh brings the yoghurt business, product range, and customer journey into one straightforward web application. The engagement covered requirements discovery, interface design, implementation, and production delivery.',
-    constraint:
-      'The project needed to turn an evolving, largely verbal set of business requirements into a usable product without adding operational complexity for a small team.',
-    tradeoffs: [
-      'A compact content model the business could maintain',
-      'Familiar purchase paths over novel interaction patterns',
-      'A deliberately small deployment footprint',
-    ],
+      'DrinkFresh is the commercial presence for a fresh yoghurt business. It covers online ordering and delivery, wholesale purchasing for trade customers, and a directory letting customers find sales joints and stations near them, alongside general publicity for the brand.',
+    // NEEDS REAL VALUE — the hard problem. Section hidden until supplied.
+    constraint: '',
+    // NEEDS REAL VALUE — section hidden until supplied.
+    architecture: [],
+    // NEEDS REAL VALUE — section hidden until supplied.
+    tradeoffs: [],
+    // NEEDS APPROVAL — matched to the stack he uses for projects of this kind.
     stackGroups: [
-      ['Frontend', 'JavaScript, HTML, CSS'],
-      ['Integration', 'REST APIs'],
-      ['Product', 'Requirements, UX, delivery'],
-      ['Infrastructure', 'Managed deployment'],
+      ['Frontend', 'React 19, Vite, TypeScript, Tailwind CSS, React Router'],
+      ['Backend', 'Node, Express 5, PostgreSQL, Prisma'],
+      ['Integrations', 'Mobile money payments, transactional email'],
+      ['Infrastructure', 'Railway'],
     ],
-    current: 'Delivered to the client and deployed.',
+    current:
+      'In development. Deployment is paused while the client finalises branding and related changes.',
     tone: 'lavender',
   },
 ]
 
-// NEEDS REAL VALUES — roles, dates and descriptions. The entries below are the
-// engagements we know are real; the dates are blank because none were given.
+// NEEDS REAL VALUES — roles and dates. Waiting on an up-to-date CV.
 export const experience: [string, string, string][] = [
   [
     'AI engineer, FarmaNet',
@@ -174,17 +178,19 @@ export const experience: [string, string, string][] = [
   ],
 ]
 
+// NEEDS REAL VALUES — waiting on an up-to-date CV.
 export const education = {
   qualification: 'BSc Computer Science',
-  // NEEDS REAL VALUE — institution and graduation year.
   institution: '',
   year: '',
   note: 'Software engineering, AI and machine learning.',
 }
 
+// NEEDS REVIEW — Emmanuel is sending the list he would actually claim.
 export const tools: [string, string][] = [
   ['Languages', 'TypeScript, JavaScript, Java, Python, SQL'],
   ['Frontend', 'React, Vite, Tailwind CSS'],
-  ['Backend', 'Node.js, Express, Spring Boot, Django, Django REST Framework'],
-  ['Data & delivery', 'PostgreSQL, Prisma, ML pipelines, Railway, Git'],
+  ['Backend', 'Node, Express, Spring Boot, Django, Django REST Framework'],
+  ['Machine learning', 'scikit-learn, pandas, NumPy'],
+  ['Data & delivery', 'PostgreSQL, Prisma, Railway, Git'],
 ]
