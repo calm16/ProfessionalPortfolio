@@ -349,3 +349,15 @@
   .page-main { padding: 0; }
   .cv-sheet { margin: 0; border: 0; }
 }
+
+/* Project imagery */
+.browser .shot { display: block; width: 100%; height: auto; }
+.browser .shot-pending {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 260px; padding: 2rem;
+  border: 1px dashed var(--line, #2c333b);
+  font-family: 'Geist Mono', monospace; font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted, #70747b);
+}
+.contact-primary .contact-email { overflow-wrap: anywhere; }

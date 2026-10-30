@@ -1,82 +1,5 @@
 import { FormEvent, ReactNode, useEffect, useState } from 'react'
-
-type Project = {
-  slug: string
-  title: string
-  shortTitle: string
-  year: string
-  client: string
-  status: string
-  description: string
-  stack: string[]
-  facts: [string, string][]
-  overview: string
-  constraint: string
-  tradeoffs: string[]
-  stackGroups: [string, string][]
-  current: string
-  tone: string
-}
-
-const projects: Project[] = [
-  {
-    slug: 'swiftvote',
-    title: 'SwiftVote',
-    shortTitle: 'SwiftVote',
-    year: '2024',
-    client: 'Campus awards & event operators',
-    status: 'Live',
-    description: 'Voting and ticketing infrastructure built around the realities of Ghanaian payments.',
-    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Railway'],
-    facts: [['Channel', 'Web + USSD'], ['Payments', 'Mobile money'], ['Role', 'Lead engineer']],
-    overview: 'SwiftVote gives event organisers one dependable place to run public voting, sell tickets, reconcile transactions, and follow live participation. Voters can use the web or a USSD session, with mobile-money payments recorded against the same event ledger.',
-    constraint: 'The system had to remain coherent across web and USSD while payment providers completed transactions asynchronously. A voter can lose connectivity, close a session, or receive a delayed confirmation; each vote and ticket still needs to be issued exactly once.',
-    tradeoffs: ['A shared transaction state machine over channel-specific logic', 'Explicit idempotency at every payment callback boundary', 'Operational clarity and audit trails over premature automation'],
-    stackGroups: [['Frontend', 'React, TypeScript'], ['Backend', 'Node.js, Express, PostgreSQL'], ['Integrations', 'Mobile money, USSD gateway'], ['Infrastructure', 'Railway, managed PostgreSQL']],
-    current: 'Live in production, processing real payments for campus awards and event ticketing.',
-    tone: 'blue',
-  },
-  {
-    slug: 'farmanet',
-    title: 'FarmaNet crop yield estimator',
-    shortTitle: 'FarmaNet',
-    year: '2024',
-    client: 'Agricultural stakeholders',
-    status: 'Approved, pending deployment',
-    description: 'A machine-learning system that estimates crop yield and harvest ahead of time.',
-    stack: ['React', 'Spring Boot', 'Python', 'Django', 'Machine learning'],
-    facts: [['Interface', 'Internal web'], ['Model', 'Yield estimation'], ['Role', 'Full-stack / ML']],
-    overview: 'FarmaNet turns field and crop observations into an early estimate of likely yield and harvest timing. Agricultural companies and selected commercial farms use a focused internal interface to submit inputs and review model output.',
-    constraint: 'A useful prediction needed to cross a mixed technology boundary without making the statistical model part of the operational application. The model also had to be candid about the limits of a still-growing training dataset.',
-    tradeoffs: ['A separate Python inference service rather than embedding model code in Java', 'Stable prediction contracts between services', 'Deployment held until the training set supports responsible production use'],
-    stackGroups: [['Frontend', 'React'], ['Backend', 'Java, Spring Boot'], ['AI service', 'Python, Django, ML pipeline'], ['Infrastructure', 'Container-ready services']],
-    current: 'Approved by stakeholders and running with selected clients. Wider deployment is pending a larger training dataset.',
-    tone: 'mist',
-  },
-  {
-    slug: 'drinkfresh',
-    title: 'DrinkFresh',
-    shortTitle: 'DrinkFresh',
-    year: '2023',
-    client: 'DrinkFresh yoghurt',
-    status: 'Delivered',
-    description: 'A product web application delivered from initial requirements through deployment.',
-    stack: ['React', 'TypeScript', 'Node.js', 'Product design'],
-    facts: [['Scope', 'End to end'], ['Type', 'Product web app'], ['Role', 'Product engineer']],
-    overview: 'DrinkFresh brings the yoghurt business, product range, and customer journey into one straightforward web application. The engagement covered requirements discovery, interface design, implementation, and production delivery.',
-    constraint: 'The project needed to turn an evolving, largely verbal set of business requirements into a usable product without adding operational complexity for a small team.',
-    tradeoffs: ['A compact content model the business could maintain', 'Familiar purchase paths over novel interaction patterns', 'A deliberately small deployment footprint'],
-    stackGroups: [['Frontend', 'React, TypeScript'], ['Backend', 'Node.js'], ['Product', 'Requirements, UX, delivery'], ['Infrastructure', 'Managed deployment']],
-    current: 'Delivered to the client and deployed.',
-    tone: 'lavender',
-  },
-]
-
-const experience = [
-  ['Independent software engineer', '2023 — now', 'Building production software for clients across commerce, events, and agriculture.'],
-  ['AI & backend engineering', '2022 — now', 'Designing service boundaries and applied machine-learning workflows for practical use.'],
-  ['Technical project delivery', 'Ongoing', 'Taking products from uncertain requirements to deployed, maintainable systems.'],
-]
+import { education, experience, profile, projects, tools, type Project } from './content'
 
 function Icon({ name }: { name: 'arrow' | 'moon' | 'sun' | 'menu' | 'close' | 'download' | 'external' }) {
   const paths: Record<typeof name, ReactNode> = {
@@ -128,12 +51,12 @@ function Nav({ page, navigate, dark, setDark }: { page: string; navigate: (path:
 
 function ProjectVisual({ project, featured = false }: { project: Project; featured?: boolean }) {
   return (
-    <div className={`project-visual visual-${project.tone} ${featured ? 'featured' : ''}`} aria-label={`${project.title} interface preview`}>
+    <div className={`project-visual visual-${project.tone} ${featured ? 'featured' : ''}`}>
       <div className="browser">
-        <div className="browser-top"><span /><span /><span /><b>{project.slug}.app</b></div>
-        {project.slug === 'swiftvote' && <div className="vote-ui"><div className="side"><strong>SV</strong><i /><i /><i /></div><div className="screen"><small>LIVE OVERVIEW</small><h3>Campus Choice Awards</h3><div className="metric-row"><div><b>18,492</b><span>Votes</span></div><div><b>GHS 42.8k</b><span>Processed</span></div></div><div className="bars"><i /><i /><i /><i /><i /><i /><i /></div></div></div>}
-        {project.slug === 'farmanet' && <div className="farm-ui"><div className="farm-head"><b>Yield forecast</b><span>Model v2.4</span></div><div className="chart"><i /><i /><i /><i /><i /><i /><i /></div><div className="farm-stats"><span><b>28.4t</b>Expected yield</span><span><b>86%</b>Confidence</span></div></div>}
-        {project.slug === 'drinkfresh' && <div className="drink-ui"><div className="drink-copy"><small>FRESHLY MADE</small><b>Yoghurt, made<br />the good way.</b><span>Simple ingredients. Fresh taste.</span></div><div className="bottle"><i>DF</i></div></div>}
+        <div className="browser-top"><span /><span /><span /><b>{project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : project.title}</b></div>
+        {project.image
+          ? <img className="shot" src={project.image} alt={`${project.title} interface`} loading="lazy" />
+          : <div className="shot-pending" role="img" aria-label={`Screenshot of ${project.title} not yet added`}><span>Screenshot pending</span></div>}
       </div>
     </div>
   )
@@ -147,7 +70,7 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
   return (
     <main>
       <section className="hero shell">
-        <p className="eyebrow">Software & AI engineer · Accra, Ghana</p>
+        <p className="eyebrow">{profile.role} · {profile.location}</p>
         <h1>I build production systems for <span>real-world complexity.</span></h1>
         <div className="hero-bottom">
           <p>I’m Emmanuel Koranteng Ankamah. I design and engineer dependable software across payments, applied AI, and digital products.</p>
@@ -181,7 +104,7 @@ function ProjectRow({ project, navigate, workPage = false }: { project: Project;
     <article className={`project-row ${workPage ? 'work-row' : ''}`}>
       <ProjectVisual project={project} />
       <div className="project-row-copy">
-        <div className="row-meta"><span>{project.year}</span><span>{project.status}</span></div>
+        <div className="row-meta">{project.year && <span>{project.year}</span>}<span>{project.status}</span></div>
         <h3>{project.title}</h3>
         <p>{project.description}</p>
         <Stack items={project.stack} />
@@ -196,10 +119,10 @@ function ContactBand({ navigate }: { navigate: (path: string) => void }) {
     <section className="contact-band shell">
       <p className="eyebrow">Open to thoughtful work</p>
       <h2>Have a system worth building?</h2>
-      <a className="email-display" href="mailto:hello@emmanuelankamah.com">hello@emmanuelankamah.com</a>
+      <a className="email-display" href={`mailto:${profile.email}`}>{profile.email}</a>
       <div className="contact-foot">
         <p>Based in Ghana, working with teams locally and internationally.</p>
-        <div><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href="https://github.com" target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a><button onClick={() => navigate('/contact')}>Contact form <Icon name="arrow" /></button></div>
+        <div><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href={profile.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a><button onClick={() => navigate('/contact')}>Contact form <Icon name="arrow" /></button></div>
       </div>
     </section>
   )
@@ -221,8 +144,8 @@ function CaseStudy({ project, navigate }: { project: Project; navigate: (path: s
     <main className="shell case-main">
       <header className="case-header">
         <button className="back-link" onClick={() => navigate('/work')}>← All work</button>
-        <div className="case-title-row"><div><p className="eyebrow">Case study · {project.year}</p><h1>{project.title}</h1></div><Status>{project.status}</Status></div>
-        <div className="case-meta"><div><span>Client</span><b>{project.client}</b></div><div><span>Year</span><b>{project.year}</b></div><div><span>Status</span><b>{project.status}</b></div><ArrowLink external>Visit live project</ArrowLink></div>
+        <div className="case-title-row"><div><p className="eyebrow">Case study{project.year && ` · ${project.year}`}</p><h1>{project.title}</h1></div><Status>{project.status}</Status></div>
+        <div className="case-meta"><div><span>Client</span><b>{project.client}</b></div>{project.year && <div><span>Year</span><b>{project.year}</b></div>}<div><span>Status</span><b>{project.status}</b></div>{project.liveUrl && <a className="arrow-link" href={project.liveUrl} target="_blank" rel="noreferrer">Visit live project<Icon name="external" /></a>}</div>
       </header>
       <ProjectVisual project={project} featured />
       <div className="case-body">
@@ -266,9 +189,9 @@ function About() {
           <p>I work closely with clients and stakeholders to move from a useful question to a maintainable system—without hiding the tradeoffs along the way.</p>
         </div>
       </section>
-      <InfoSection title="Experience">{experience.map(([title, date, desc]) => <div className="experience-row" key={title}><h3>{title}</h3><span>{date}</span><p>{desc}</p></div>)}</InfoSection>
-      <InfoSection title="Education"><div className="education"><div><h3>Computer Science & Engineering</h3><p>Foundations in software systems, data, and applied computing.</p></div><span>Ghana</span></div></InfoSection>
-      <InfoSection title="Working tools"><div className="tools-grid"><div><span>Languages</span><p>TypeScript, JavaScript, Java, Python, SQL</p></div><div><span>Frontend</span><p>React, HTML, CSS, interface systems</p></div><div><span>Backend</span><p>Node.js, Express, Spring Boot, Django</p></div><div><span>Data & delivery</span><p>PostgreSQL, ML workflows, Railway, Git</p></div></div></InfoSection>
+      <InfoSection title="Experience">{experience.map(([title, date, desc]) => <div className="experience-row" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</InfoSection>
+      <InfoSection title="Education"><div className="education"><div><h3>{education.qualification}</h3><p>{education.note}</p></div><span>{education.institution || profile.location}</span></div></InfoSection>
+      <InfoSection title="Working tools"><div className="tools-grid">{tools.map(([label, value]) => <div key={label}><span>{label}</span><p>{value}</p></div>)}</div></InfoSection>
     </main>
   )
 }
@@ -278,16 +201,15 @@ function InfoSection({ title, children }: { title: string; children: ReactNode }
 }
 
 function CV() {
-  const cvText = `Emmanuel Koranteng Ankamah — Software & AI Engineer\n\nBased in Ghana\nEmail: hello@emmanuelankamah.com\n\nEXPERIENCE\nIndependent software engineer, 2023—now\nBuilding production software across commerce, events, and agriculture.\n\nSELECTED WORK\nSwiftVote — Voting and ticketing infrastructure\nFarmaNet — ML crop yield estimation system\nDrinkFresh — End-to-end product web application\n\nTOOLS\nTypeScript, React, Node.js, Express, Java, Spring Boot, Python, Django, PostgreSQL`
   return (
     <main className="shell page-main">
       <PageIntro index="03" title="Curriculum vitae" text="A concise record of selected work, technical focus, and experience." />
-      <div className="cv-actions"><a className="primary-button" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cvText)}`} download="Emmanuel-Koranteng-Ankamah-CV.txt"><Icon name="download" />Download CV</a><span>TXT · Updated June 2025</span></div>
+      <div className="cv-actions"><button className="primary-button" onClick={() => window.print()}><Icon name="download" />Download as PDF</button><span>Opens your print dialogue — choose “Save as PDF”</span></div>
       <article className="cv-sheet">
-        <header><div><h2>Emmanuel Koranteng<br />Ankamah</h2><p>Software & AI Engineer</p></div><div><a href="mailto:hello@emmanuelankamah.com">hello@emmanuelankamah.com</a><span>Accra, Ghana</span><span>Available internationally</span></div></header>
+        <header><div><h2>Emmanuel Koranteng<br />Ankamah</h2><p>{profile.role}</p></div><div><a href={`mailto:${profile.email}`}>{profile.email}</a><span>{profile.location}</span><span>Available internationally</span></div></header>
         <CvSection title="Profile"><p>Software and AI engineer building production systems across payments, applied machine learning, and digital products. Experienced in taking technical projects from requirements through architecture, implementation, and deployment.</p></CvSection>
-        <CvSection title="Experience">{experience.slice(0, 2).map(([title, date, desc]) => <div className="cv-entry" key={title}><h3>{title}</h3><span>{date}</span><p>{desc}</p></div>)}</CvSection>
-        <CvSection title="Selected projects">{projects.map((p) => <div className="cv-entry" key={p.slug}><h3>{p.title}</h3><span>{p.year}</span><p>{p.description} {p.stack.join(' · ')}</p></div>)}</CvSection>
+        <CvSection title="Experience">{experience.map(([title, date, desc]) => <div className="cv-entry" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</CvSection>
+        <CvSection title="Selected projects">{projects.map((p) => <div className="cv-entry" key={p.slug}><h3>{p.title}</h3>{p.year && <span>{p.year}</span>}<p>{p.description} {p.stack.join(' · ')}</p></div>)}</CvSection>
         <CvSection title="Technical"><div className="cv-tech"><span>Languages</span><p>TypeScript, JavaScript, Java, Python, SQL</p><span>Systems</span><p>React, Node.js, Express, Spring Boot, Django, PostgreSQL</p><span>Practice</span><p>System design, API design, applied ML, product delivery, deployment</p></div></CvSection>
       </article>
     </main>
@@ -305,7 +227,7 @@ function Contact() {
     <main className="shell page-main contact-page">
       <PageIntro index="04" title="Let’s talk." text="For thoughtful product work, technical collaborations, or an engineering role." />
       <div className="contact-grid">
-        <div className="contact-primary"><span className="eyebrow">The best route</span><a href="mailto:hello@emmanuelankamah.com">hello@<br />emmanuelankamah.com</a><p>I usually reply within two working days. Based in Accra and comfortable working across time zones.</p><div><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href="https://github.com" target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a></div></div>
+        <div className="contact-primary"><span className="eyebrow">The best route</span><a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a><p>I usually reply within two working days. Based in Ghana and comfortable working across time zones.</p><div><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href={profile.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a></div></div>
         <form className="contact-form" onSubmit={submit}>
           <label><span>Name</span><input name="name" required placeholder="Your name" /></label>
           <label><span>Email</span><input name="email" type="email" required placeholder="you@company.com" /></label>
@@ -343,5 +265,5 @@ export default function App() {
   else if (page === '/cv') content = <CV />
   else if (page === '/contact') content = <Contact />
   else content = <Home navigate={navigate} />
-  return <><Nav page={page} navigate={navigate} dark={dark} setDark={setDark} />{content}<footer className="footer shell"><span>© 2025 Emmanuel Koranteng Ankamah</span><span>Designed & engineered in Ghana</span></footer></>
+  return <><Nav page={page} navigate={navigate} dark={dark} setDark={setDark} />{content}<footer className="footer shell"><span>© {new Date().getFullYear()} {profile.name}</span><span>Designed &amp; engineered in Ghana</span></footer></>
 }
