@@ -72,10 +72,13 @@ export default async function handler(request: Request): Promise<Response> {
     method: 'POST',
     headers: { 'api-key': apiKey, 'content-type': 'application/json' },
     body: JSON.stringify({
-      sender: { email: from, name: 'Portfolio contact form' },
+      sender: { email: from, name: 'emmanuelkorantenga.com' },
       to: [{ email: to }],
       replyTo: { email, name },
       subject: `Portfolio enquiry from ${name}`,
+      // Sent as both plain text and HTML. HTML-only mail reads as marketing to
+      // inbox filters, which pushes it towards the Promotions tab.
+      textContent: `${name} <${email}>\n\n${message}`,
       htmlContent: `<p><strong>${escapeHtml(name)}</strong> &lt;${escapeHtml(email)}&gt;</p><p>${escapeHtml(message).replace(/\n/g, '<br />')}</p>`,
     }),
   })
