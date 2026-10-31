@@ -85,8 +85,7 @@ export const projects: Project[] = [
     title: 'FarmaNet crop yield estimator',
     shortTitle: 'FarmaNet',
     year: '2026',
-    // NEEDS DECISION — how FarmaNet should be shown as the client.
-    client: 'FarmaNet',
+    client: 'FarmaNet GH',
     status: 'Approved, pending integration',
     liveUrl: '',
     // NEEDS REAL VALUE — estimator interface screenshot, data masked if required.
