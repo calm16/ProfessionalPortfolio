@@ -234,7 +234,20 @@ function CV() {
       <PageIntro index="03" title="Curriculum vitae" text={pages.cvIntro} />
       <div className="cv-actions"><button className="primary-button" onClick={() => window.print()}><Icon name="download" />Download as PDF</button><span>Opens your print dialogue — choose “Save as PDF”</span></div>
       <article className="cv-sheet">
-        <header><div><h2>{profile.name}</h2><p>{profile.role}</p></div><div><a href={`mailto:${profile.email}`}>{profile.email}</a><span>{profile.location}</span><a href={profile.linkedin} target="_blank" rel="noreferrer">{profile.linkedin.replace(/^https?:\/\/(www\.)?/, '')}</a><a href={profile.github} target="_blank" rel="noreferrer">{profile.github.replace(/^https?:\/\//, '')}</a>{profile.availability && <span>{profile.availability}</span>}</div></header>
+        <header><div><h2>{profile.name}</h2><p>{profile.role}</p></div><div>
+          <span>{profile.location}</span>
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+          {/* Short label on screen so the column stays even; the full address in
+              print, where a reader cannot click it. */}
+          <a href={profile.linkedin} target="_blank" rel="noreferrer">
+            <span className="link-label">LinkedIn</span>
+            <span className="link-url">{profile.linkedin.replace(/^https?:\/\/(www\.)?/, '')}</span>
+          </a>
+          <a href={profile.github} target="_blank" rel="noreferrer">
+            <span className="link-label">GitHub</span>
+            <span className="link-url">{profile.github.replace(/^https?:\/\//, '')}</span>
+          </a>
+        </div></header>
         <CvSection title="Professional summary"><p>{cv.profile}</p></CvSection>
         <CvSection title="Education">{education.map((item) => <div className="cv-entry" key={item.qualification}><h3>{item.qualification}</h3>{item.year && <span>{item.year}</span>}<p>{item.institution}</p></div>)}</CvSection>
         <CvSection title="Work history">{experience.map((item) => (

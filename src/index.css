@@ -214,7 +214,8 @@
 .cv-sheet > header { padding-bottom: 60px; display: flex; justify-content: space-between; gap: 40px; }
 .cv-sheet > header h2 { font-size: clamp(38px, 5vw, 66px); line-height: .98; letter-spacing: -.055em; font-weight: 600; }
 .cv-sheet > header p { margin-top: 17px; color: var(--accent); font: 500 13px/1.4 'Geist Mono'; }
-.cv-sheet > header > div:last-child { display: flex; flex-direction: column; align-items: flex-end; color: var(--muted); font: 400 12px/1.8 'Geist Mono'; }
+.cv-sheet > header > div:last-child { display: flex; flex-direction: column; align-items: flex-end; white-space: nowrap; color: var(--muted); font: 400 12px/1.8 'Geist Mono'; }
+.cv-sheet > header .link-url { display: none; }
 .cv-sheet > header a { color: var(--accent); }
 .cv-section { padding-block: 40px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 25% 1fr; gap: 40px; }
 .cv-section > h2 { color: var(--accent); font: 500 11px/1.4 'Geist Mono'; text-transform: uppercase; letter-spacing: .08em; }
@@ -366,8 +367,11 @@
   .cv-sheet > header { flex-direction: column; align-items: center; text-align: center; }
   .cv-sheet > header > div:last-child {
     align-items: center; flex-direction: row; flex-wrap: wrap;
-    justify-content: center; gap: 4px 14px; margin-top: 8px;
+    justify-content: center; gap: 4px 14px; margin-top: 8px; white-space: normal;
   }
+  /* On paper a label cannot be clicked, so print the address itself. */
+  .cv-sheet > header .link-label { display: none; }
+  .cv-sheet > header .link-url { display: inline; }
   .cv-section { display: block; }
   .cv-section > h2 {
     margin-bottom: 11px; padding-bottom: 5px;
