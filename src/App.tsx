@@ -1,5 +1,5 @@
 import { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
-import { about, education, experience, home, pages, profile, projects, tools, type Project } from './content'
+import { about, cv, education, experience, home, pages, profile, projects, tools, type Project } from './content'
 
 function Icon({ name }: { name: 'arrow' | 'moon' | 'sun' | 'menu' | 'close' | 'download' | 'external' }) {
   const paths: Record<typeof name, ReactNode> = {
@@ -217,7 +217,7 @@ function About() {
           {about.paragraphs.map((paragraph) => <p key={paragraph.slice(0, 40)}>{paragraph}</p>)}
         </div>
       </section>
-      <InfoSection title="Experience">{experience.map(([title, date, desc]) => <div className="experience-row" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</InfoSection>
+      <InfoSection title="Experience">{experience.map((item) => <div className="experience-row" key={item.role}><h3>{item.role}</h3>{item.dates && <span>{item.dates}</span>}<p>{item.summary}</p></div>)}</InfoSection>
       <InfoSection title="Education">{education.map((item) => <div className="education" key={item.qualification}><div><h3>{item.qualification}</h3><p>{item.institution}</p></div><span>{item.year}</span></div>)}</InfoSection>
       <InfoSection title="Working tools"><div className="tools-grid">{tools.map(([label, value]) => <div key={label}><span>{label}</span><p>{value}</p></div>)}</div></InfoSection>
     </main>
@@ -234,11 +234,19 @@ function CV() {
       <PageIntro index="03" title="Curriculum vitae" text={pages.cvIntro} />
       <div className="cv-actions"><button className="primary-button" onClick={() => window.print()}><Icon name="download" />Download as PDF</button><span>Opens your print dialogue — choose “Save as PDF”</span></div>
       <article className="cv-sheet">
-        <header><div><h2>Emmanuel Koranteng<br />Ankamah</h2><p>{profile.role}</p></div><div><a href={`mailto:${profile.email}`}>{profile.email}</a><span>{profile.location}</span><span>Available internationally</span></div></header>
-        <CvSection title="Profile"><p>Software and AI engineer building production systems across payments, applied machine learning, and digital products. Experienced in taking technical projects from requirements through architecture, implementation, and deployment.</p></CvSection>
-        <CvSection title="Experience">{experience.map(([title, date, desc]) => <div className="cv-entry" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</CvSection>
+        <header><div><h2>Emmanuel Koranteng<br />Ankamah</h2><p>{profile.role}</p></div><div><a href={`mailto:${profile.email}`}>{profile.email}</a><span>{profile.location}</span>{profile.availability && <span>{profile.availability}</span>}</div></header>
+        <CvSection title="Profile"><p>{cv.profile}</p></CvSection>
+        <CvSection title="Experience">{experience.map((item) => (
+          <div className="cv-entry" key={item.role}>
+            <h3>{item.role}</h3>
+            {item.dates && <span>{item.dates}</span>}
+            <ul className="cv-bullets">{item.bullets.map((bullet) => <li key={bullet.slice(0, 40)}>{bullet}</li>)}</ul>
+          </div>
+        ))}</CvSection>
         <CvSection title="Selected projects">{projects.map((p) => <div className="cv-entry" key={p.slug}><h3>{p.title}</h3>{p.year && <span>{p.year}</span>}<p>{p.description} {p.stack.join(' · ')}</p></div>)}</CvSection>
-        <CvSection title="Technical"><div className="cv-tech"><span>Languages</span><p>TypeScript, JavaScript, Java, Python, SQL</p><span>Systems</span><p>React, Node.js, Express, Spring Boot, Django, PostgreSQL</p><span>Practice</span><p>System design, API design, applied ML, product delivery, deployment</p></div></CvSection>
+        <CvSection title="Education">{education.map((item) => <div className="cv-entry" key={item.qualification}><h3>{item.qualification}</h3>{item.year && <span>{item.year}</span>}<p>{item.institution}</p></div>)}</CvSection>
+        <CvSection title="Technical"><div className="cv-tech">{tools.map(([label, value]) => <Fragment key={label}><span>{label}</span><p>{value}</p></Fragment>)}<span>Networking & IT</span><p>{cv.networking}</p></div></CvSection>
+        <CvSection title="References"><p>{cv.references}</p></CvSection>
       </article>
     </main>
   )

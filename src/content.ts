@@ -188,29 +188,61 @@ export const projects: Project[] = [
   },
 ]
 
-// Dates taken from the CV. NEEDS CONFIRMATION — the CV predates SwiftVote and the
-// commissioned work, and the wording of each entry is still to be approved.
-export const experience: [string, string, string][] = [
-  [
-    'AI/ML engineer — FarmaNet',
-    'Jan 2026 — present',
-    'Part of the AI engineering team building machine-learning systems for agricultural decision-making, including the crop yield estimator.',
-  ],
-  [
-    'Commissioned software engineering',
-    'Aug 2026 — present',
-    'Production systems built for clients, including SwiftVote and DrinkFresh.',
-  ],
-  [
-    'IT national service — Electricity Company of Ghana',
-    'Nov 2024 — Sep 2025',
-    'Enterprise IT and infrastructure support across branches: server and network maintenance, system deployment, and recovery of server-room failures.',
-  ],
-  [
-    'IT trainee — Electricity Company of Ghana',
-    'Sep 2023 — Nov 2023',
-    'Network hardware, cabling and configuration across a multi-department site, alongside senior engineers.',
-  ],
+// One source of truth for roles. The about page shows the summary; the CV shows
+// the bullets. Bullets are condensed from Emmanuel's own CV and project write-ups.
+export const experience: {
+  role: string
+  dates: string
+  summary: string
+  bullets: string[]
+}[] = [
+  {
+    role: 'AI/ML engineer — FarmaNet',
+    dates: 'Jan 2026 — present',
+    summary:
+      'Part of the AI engineering team building machine-learning systems for agricultural decision-making, including the crop yield estimator.',
+    bullets: [
+      'Developed and evaluated machine-learning solutions for crop yield prediction using Random Forest regression, as part of FarmaNet’s crop yield estimation system.',
+      'Prepared, cleaned, validated and engineered agricultural datasets for training, and defined dataset schemas, feature requirements and historical training-data specifications.',
+      'Assessed model performance against MAE, RMSE and R², and established evaluation procedures supporting iterative improvement.',
+      'Contributed to the Spring Boot and Django integration for prediction services, covering API design, request validation and end-to-end workflow testing.',
+      'Worked with the CTO and stakeholders on AI roadmap planning, training-data acquisition, deployment strategy and production readiness.',
+    ],
+  },
+  {
+    role: 'Commissioned software engineering',
+    dates: 'Aug 2026 — present',
+    summary: 'Production systems built for clients, including SwiftVote and DrinkFresh.',
+    bullets: [
+      'Built and shipped SwiftVote, a voting and ticketing platform for Ghanaian campus awards, live and processing real mobile-money payments across both web and USSD.',
+      'Designed the transaction model so every vote is issued exactly once against a confirmed payment, with idempotent handling of unsigned provider callbacks and recovery when confirmations never arrive.',
+      'Integrated mobile money, USSD shortcodes, SMS, transactional email and image delivery against third-party APIs.',
+      'Delivered across the full lifecycle — requirements, architecture, implementation and deployment — for clients in events and commerce.',
+    ],
+  },
+  {
+    role: 'IT national service — Electricity Company of Ghana',
+    dates: 'Nov 2024 — Sep 2025',
+    summary:
+      'Enterprise IT and infrastructure support across branches: server and network maintenance, system deployment, and recovery of server-room failures.',
+    bullets: [
+      'Diagnosed and repaired server room failures, restoring network functionality for hundreds of employees.',
+      'Implemented preventive maintenance on servers, reducing critical outages and improving reliability.',
+      'Deployed and configured systems, applications and security compliance tools, and managed remote access solutions.',
+      'Coordinated support deployments across ECG branches, resolving technical issues affecting over fifty staff per visit.',
+    ],
+  },
+  {
+    role: 'IT trainee — Electricity Company of Ghana',
+    dates: 'Sep 2023 — Nov 2023',
+    summary:
+      'Network hardware, cabling and configuration across a multi-department site, alongside senior engineers.',
+    bullets: [
+      'Installed and configured cabling, patch panels and network hardware across a site of more than fifty offices.',
+      'Applied security measures and configured network settings to meet operational requirements.',
+      'Documented troubleshooting methods alongside senior engineers.',
+    ],
+  },
 ]
 
 // Dates taken from the CV. NEEDS CONFIRMATION.
@@ -237,3 +269,13 @@ export const tools: [string, string][] = [
   ],
   ['Infrastructure & tooling', 'Railway, Vercel, Git, GitHub, CI from GitHub, PR-based workflow'],
 ]
+
+// The CV carries everything the about page's tools grid does, plus the networking
+// and IT work, which belongs on the CV rather than beside scikit-learn.
+export const cv = {
+  profile:
+    'Software and AI engineer working across product engineering, backend systems and applied machine learning. Foundation in systems design — service boundaries, data models and the contracts between them — with production experience spanning payment integration, multi-service architecture and applied machine learning under sparse data. Takes projects from requirements through architecture, implementation and deployment.',
+  networking:
+    'Network architecture and configuration, IP routing, network security protocols, server administration, hardware installation, IoT connectivity, ICT service management',
+  references: 'Available on request',
+}

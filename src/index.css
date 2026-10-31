@@ -346,9 +346,17 @@
 }
 
 @media print {
+  /* Printing from dark mode would otherwise put white text on white paper. */
+  :root, :root[data-theme='dark'] {
+    --bg: #ffffff; --surface: #ffffff; --surface-lavender: #ffffff; --surface-mist: #ffffff;
+    --text: #13171b; --muted: #3f454c; --line: #c3c9d2; --accent: #0030cf; --header: #ffffff;
+  }
+  @page { margin: 14mm; }
   .site-header, .page-intro, .cv-actions, .footer { display: none; }
   .page-main { padding: 0; }
   .cv-sheet { margin: 0; border: 0; }
+  .cv-section, .cv-entry { break-inside: avoid; }
+  .cv-sheet a { color: inherit; text-decoration: none; }
 }
 
 /* Project imagery */
@@ -374,3 +382,8 @@
 .contact-form .primary-button[disabled] { opacity: .6; cursor: progress; }
 
 .about-lead .portrait-photo { width: 100%; height: auto; border-radius: 10px; object-fit: cover; }
+
+/* CV bullet lists */
+.cv-entry .cv-bullets { grid-column: 1 / -1; margin: 8px 0 0; padding-left: 18px; list-style: disc; }
+.cv-entry .cv-bullets li { margin-bottom: 6px; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.cv-entry .cv-bullets li::marker { color: var(--line); }
