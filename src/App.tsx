@@ -232,7 +232,7 @@ function CV() {
   return (
     <main className="shell page-main">
       <PageIntro index="03" title="Curriculum vitae" text={pages.cvIntro} />
-      <div className="cv-actions"><button className="primary-button" onClick={() => window.print()}><Icon name="download" />Download as PDF</button><span>Opens your print dialogue — choose “Save as PDF”</span></div>
+      <div className="cv-actions"><a className="primary-button" href={cv.file} download><Icon name="download" />Download as PDF</a><span>PDF · updated {cv.updated}</span></div>
       <article className="cv-sheet">
         <header><div><h2>{profile.name}</h2><p>{profile.role}</p></div><div>
           <span>{profile.location}</span>

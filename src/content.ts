@@ -275,8 +275,12 @@ export const tools: [string, string][] = [
 // and IT work, which belongs on the CV rather than beside scikit-learn.
 export const cv = {
   profile:
-    'Software and AI engineer working across product engineering, backend systems and applied machine learning. Foundation in systems design — service boundaries, data models and the contracts between them — with production experience spanning payment integration, multi-service architecture and applied machine learning under sparse data. Takes projects from requirements through architecture, implementation and deployment.',
+    'Software and AI engineer working across product engineering, backend systems and applied machine learning. Grounded in systems design, with particular attention to service boundaries, data models and the contracts between them. Production experience spans payment integration, multi-service architecture and applied machine learning under sparse data. Takes projects from requirements through architecture and implementation to deployment, and works comfortably with clients, stakeholders and cross-functional teams.',
   networking:
     'Network architecture and configuration, IP routing, network security protocols, server administration, hardware installation, IoT connectivity, ICT service management',
   references: 'Available on request',
+  // The public download. Generated from this page, so it carries no phone
+  // number and no referee details — those live only in the private document.
+  file: '/Emmanuel-Koranteng-Ankamah-CV.pdf',
+  updated: 'October 2026',
 }
