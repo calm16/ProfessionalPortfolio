@@ -194,7 +194,7 @@ export const experience: [string, string, string][] = [
   [
     'AI/ML engineer — FarmaNet',
     'Jan 2026 — present',
-    'Contracted on a permanent basis. Machine-learning systems for agricultural decision-making, including the crop yield estimator.',
+    'Part of the AI engineering team building machine-learning systems for agricultural decision-making, including the crop yield estimator.',
   ],
   [
     'Commissioned software engineering',
