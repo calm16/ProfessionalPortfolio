@@ -354,8 +354,26 @@
   @page { margin: 14mm; }
   .site-header, .page-intro, .cv-actions, .footer { display: none; }
   .page-main { padding: 0; }
-  .cv-section, .cv-entry { break-inside: avoid; }
+  /* Avoid on the section forces the browser to break anywhere once a section
+     outgrows a page, which split an entry mid-title. Keep it on entries only. */
+  .cv-entry, .cv-entry h3 { break-inside: avoid; }
+  .cv-entry h3 { break-after: avoid; }
+  .cv-section > h2 { break-after: avoid; }
   .cv-sheet a { color: inherit; text-decoration: none; }
+
+  /* On paper this is a CV, not a portfolio page: name centred at the top, one
+     contact line beneath it, centred section headings, full-width content. */
+  .cv-sheet > header { flex-direction: column; align-items: center; text-align: center; }
+  .cv-sheet > header > div:last-child {
+    align-items: center; flex-direction: row; flex-wrap: wrap;
+    justify-content: center; gap: 4px 14px; margin-top: 8px;
+  }
+  .cv-section { display: block; }
+  .cv-section > h2 {
+    margin-bottom: 11px; padding-bottom: 5px;
+    border-bottom: 1px solid var(--line); text-align: center;
+  }
+  .cv-section > div > p { max-width: none; }
 
   /* Screen sizing is built for a wide viewport and runs to eight pages on
      paper. Everything below is the printed document's own scale. */
