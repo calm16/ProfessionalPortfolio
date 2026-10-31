@@ -54,8 +54,8 @@ function ProjectVisual({ project, featured = false }: { project: Project; featur
     <div className={`project-visual visual-${project.tone} ${featured ? 'featured' : ''}`}>
       <div className="browser">
         <div className="browser-top"><span /><span /><span /><b>{project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : project.title}</b></div>
-        {project.image
-          ? <img className="shot" src={project.image} alt={`${project.title} interface`} loading="lazy" />
+        {project.images.length > 0
+          ? <img className="shot" src={project.images[0].src} alt={project.images[0].caption} loading="lazy" />
           : <div className="shot-pending" role="img" aria-label={`Screenshot of ${project.title} not yet added`}><span>Screenshot pending</span></div>}
       </div>
     </div>
@@ -167,6 +167,26 @@ function caseSections(project: Project): { title: string; body: ReactNode }[] {
   const sections: { title: string; body: ReactNode }[] = [
     { title: 'What the system does', body: <p>{project.overview}</p> },
   ]
+  // The lead image already sits at the top of the page, so the gallery carries
+  // the rest. It comes early: a reader should see the product before reading
+  // about how it was built.
+  if (project.images.length > 1) {
+    sections.push({
+      title: 'The interface',
+      body: (
+        <div className="gallery">
+          {project.images.slice(1).map((shot) => (
+            <figure key={shot.src}>
+              <a href={shot.src} target="_blank" rel="noreferrer">
+                <img src={shot.src} alt={shot.caption} loading="lazy" />
+              </a>
+              <figcaption>{shot.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      ),
+    })
+  }
   if (project.constraint) sections.push({ title: 'The hard problem', body: <p>{project.constraint}</p> })
   if (project.architecture.length > 0) {
     sections.push({ title: 'How it is built', body: <Architecture steps={project.architecture} /> })

@@ -12,7 +12,8 @@ export type Project = {
   client: string
   status: string
   liveUrl: string
-  image: string
+  /** First image is the one used on the home page and work index. */
+  images: { src: string; caption: string }[]
   description: string
   stack: string[]
   facts: [string, string][]
@@ -79,8 +80,15 @@ export const projects: Project[] = [
     client: 'Elvis Innovations',
     status: 'Live',
     liveUrl: 'https://swiftvote.website',
-    // NEEDS REAL VALUE — screenshot of the live product, placed in /public.
-    image: '',
+    // NEEDS APPROVAL — captions describe what each screen shows.
+    images: [
+      { src: '/work/swiftvote/hero.webp', caption: 'The public landing page, with live vote counts and ticket sales surfaced as they happen.' },
+      { src: '/work/swiftvote/events.webp', caption: 'Active and past events across Ghana’s campuses, each linking through to voting.' },
+      { src: '/work/swiftvote/organisers.webp', caption: 'The organiser pitch: list an event, sell tickets and collect votes in one place.' },
+      { src: '/work/swiftvote/signup-choice.webp', caption: 'Sign-up splits at the door, because event creators and voters need different journeys.' },
+      { src: '/work/swiftvote/organiser-account.webp', caption: 'Organiser registration, collecting what is needed to settle earnings by mobile money.' },
+      { src: '/work/swiftvote/organiser-dashboard.webp', caption: 'The organiser’s view: events, categories, votes and revenue together.' },
+    ],
     description:
       'A voting and ticketing platform for Ghanaian campus awards shows, taking mobile-money payments over both the web and USSD.',
     stack: ['React 19', 'TypeScript', 'Node', 'Express 5', 'PostgreSQL', 'Prisma', 'Railway'],
@@ -119,8 +127,14 @@ export const projects: Project[] = [
     client: 'Farmanet GH',
     status: 'Approved, pending integration',
     liveUrl: '',
-    // NEEDS REAL VALUE — estimator interface screenshot, data masked if required.
-    image: '',
+    // NEEDS APPROVAL — captions describe what each screen shows.
+    images: [
+      { src: '/work/farmanet/prediction.webp', caption: 'A completed estimate: yield per hectare, a confidence band drawn from the spread across the model’s trees, and a breakdown of what drove the number.' },
+      { src: '/work/farmanet/estimator.webp', caption: 'Before a run, the estimator states what it has been trained on — records, farms, seasons, zones and crops.' },
+      { src: '/work/farmanet/planting-window.webp', caption: 'Planting inputs checked against the normal window for that crop and zone, with the data coverage behind the estimate stated plainly.' },
+      { src: '/work/farmanet/no-comparable-data.webp', caption: 'The honesty layer. No comparable farms exist in training data for this crop and region, so the system still answers but marks the estimate indicative and the risk high.' },
+      { src: '/work/farmanet/locations-history.webp', caption: 'Farm locations and a running history of the predictions made in a session.' },
+    ],
     description:
       'An ML-powered crop yield estimator that predicts yields across Ghana’s agroecological zones and, crucially, tells users how much to trust each prediction.',
     stack: ['Python', 'Django REST', 'scikit-learn', 'pandas', 'Spring Boot', 'PostgreSQL'],
@@ -154,8 +168,13 @@ export const projects: Project[] = [
     client: 'DrinkFresh',
     status: 'In development',
     liveUrl: '',
-    // NEEDS REAL VALUE — screenshot once there is something to show.
-    image: '',
+    // NEEDS APPROVAL — captions describe what each screen shows. These are from
+    // the build in progress, not a released site.
+    images: [
+      { src: '/work/drinkfresh/vanilla.webp', caption: 'Product hero, one of three rotating flavours.' },
+      { src: '/work/drinkfresh/strawberry.webp', caption: 'Each flavour carries its own photography and colour.' },
+      { src: '/work/drinkfresh/banana.webp', caption: 'Outlets, products and cart sit in the top bar throughout.' },
+    ],
     // NEEDS APPROVAL — assembled from what Emmanuel described, not his own sentence.
     description:
       'The commercial site for a fresh yoghurt business — custom orders, delivery, wholesale purchasing, and a directory of the places you can buy it.',

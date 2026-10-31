@@ -430,3 +430,10 @@
 .cv-entry .cv-bullets li::marker { color: var(--line); }
 
 .cv-actions .cv-buttons { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+
+/* Case-study screenshot gallery */
+.gallery { display: flex; flex-direction: column; gap: 34px; }
+.gallery figure { margin: 0; }
+.gallery a { display: block; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.gallery img { display: block; width: 100%; height: auto; }
+.gallery figcaption { margin-top: 12px; max-width: 640px; color: var(--muted); font-size: 15px; line-height: 1.55; }
