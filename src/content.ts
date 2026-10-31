@@ -247,9 +247,10 @@ export const experience: {
 
 // Dates taken from the CV. NEEDS CONFIRMATION.
 export const education: { qualification: string; institution: string; year: string }[] = [
-  ['BSc Computer Science', 'Kwame Nkrumah University of Science and Technology', '2021 — 2024'],
   ['Full Stack Development certificate', 'IBM', '2025 — present'],
   ['Frontend Developer professional certificate', 'Meta', '2025 — present'],
+  ['BSc Computer Science', 'Kwame Nkrumah University of Science and Technology', '2021 — 2024'],
+  ['WASSCE, General Science', 'Prempeh College', '2017 — 2020'],
 ].map(([qualification, institution, year]) => ({ qualification, institution, year }))
 
 // Third-party services are deliberately absent: naming five vendors implies those
