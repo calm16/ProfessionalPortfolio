@@ -192,11 +192,20 @@ export const education: { qualification: string; institution: string; year: stri
   ['Frontend Developer professional certificate', 'Meta', '2025 — present'],
 ].map(([qualification, institution, year]) => ({ qualification, institution, year }))
 
-// NEEDS REVIEW — Emmanuel is sending the list he would actually claim.
+// Third-party services are deliberately absent: naming five vendors implies those
+// five are the limit, and any service with API documentation is workable.
+// Networking and IT support live on the CV rather than here.
 export const tools: [string, string][] = [
-  ['Languages', 'TypeScript, JavaScript, Java, Python, SQL'],
-  ['Frontend', 'React, Vite, Tailwind CSS'],
-  ['Backend', 'Node, Express, Spring Boot, Django, Django REST Framework'],
-  ['Machine learning', 'scikit-learn, pandas, NumPy'],
-  ['Data & delivery', 'PostgreSQL, Prisma, Railway, Git'],
+  ['Languages', 'TypeScript, JavaScript, Java, Python, SQL, HTML, CSS, Bash'],
+  ['Frontend', 'React 19, Next.js 15, Vite, Tailwind CSS v4, React Router, JSP'],
+  [
+    'Backend',
+    'Node, Express 5, Django, Django REST Framework, Spring Boot, REST API design, webhook handling and idempotency',
+  ],
+  ['Data', 'PostgreSQL, Prisma, schema design'],
+  [
+    'Machine learning',
+    'scikit-learn, Random Forest regression, pandas, NumPy, data preprocessing, feature engineering, model evaluation (MAE, RMSE, R²)',
+  ],
+  ['Infrastructure & tooling', 'Railway, Vercel, Git, GitHub, CI from GitHub, PR-based workflow'],
 ]
