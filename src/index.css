@@ -355,10 +355,15 @@
 .browser .shot { display: block; width: 100%; height: auto; }
 .browser .shot-pending {
   display: flex; align-items: center; justify-content: center;
-  min-height: 260px; padding: 2rem;
+  aspect-ratio: 16 / 10; padding: 1rem; text-align: center;
   border: 1px dashed var(--line, #2c333b);
   font-family: 'Geist Mono', monospace; font-size: 12px;
   letter-spacing: .08em; text-transform: uppercase;
   color: var(--muted, #70747b);
 }
 .contact-primary .contact-email { overflow-wrap: anywhere; }
+
+@media (max-width: 680px) {
+  .case-main > .project-visual .browser { width: 100%; }
+  .case-main > .project-visual { min-height: 0; }
+}
