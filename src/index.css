@@ -428,3 +428,5 @@
 .cv-entry .cv-bullets { grid-column: 1 / -1; margin: 8px 0 0; padding-left: 18px; list-style: disc; }
 .cv-entry .cv-bullets li { margin-bottom: 6px; color: var(--muted); font-size: 15px; line-height: 1.55; }
 .cv-entry .cv-bullets li::marker { color: var(--line); }
+
+.cv-actions .cv-buttons { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
