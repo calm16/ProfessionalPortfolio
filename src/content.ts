@@ -119,8 +119,7 @@ export const projects: Project[] = [
     slug: 'drinkfresh',
     title: 'DrinkFresh',
     shortTitle: 'DrinkFresh',
-    // NEEDS REAL VALUE — start year.
-    year: '',
+    year: '2027',
     client: 'DrinkFresh',
     status: 'In development',
     liveUrl: '',
