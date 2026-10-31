@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://emmanuelkorantenga.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/work</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/work/swiftvote</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/work/farmanet</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/work/drinkfresh</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/about</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/cv</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://emmanuelkorantenga.com/contact</loc>
+    <priority>0.6</priority>
+  </url>
+</urlset>
