@@ -1,5 +1,5 @@
 import { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
-import { about, education, experience, home, profile, projects, tools, type Project } from './content'
+import { about, education, experience, home, pages, profile, projects, tools, type Project } from './content'
 
 function Icon({ name }: { name: 'arrow' | 'moon' | 'sun' | 'menu' | 'close' | 'download' | 'external' }) {
   const paths: Record<typeof name, ReactNode> = {
@@ -117,8 +117,8 @@ function ProjectRow({ project, navigate, workPage = false }: { project: Project;
 function ContactBand({ navigate }: { navigate: (path: string) => void }) {
   return (
     <section className="contact-band shell">
-      <p className="eyebrow">Open to thoughtful work</p>
-      <h2>Have a system worth building?</h2>
+      {profile.availability && <p className="eyebrow">{profile.availability}</p>}
+      <h2>{pages.contactBandHeading}</h2>
       <a className="email-display" href={`mailto:${profile.email}`}>{profile.email}</a>
       <div className="contact-foot">
         <p>Based in Ghana, working with teams locally and internationally.</p>
@@ -129,7 +129,7 @@ function ContactBand({ navigate }: { navigate: (path: string) => void }) {
 }
 
 function Work({ navigate }: { navigate: (path: string) => void }) {
-  return <main className="shell page-main"><PageIntro index="01" title="Selected work" text="Production systems shaped around real operational constraints, not portfolio prompts." /><div className="all-work">{projects.map((project) => <ProjectRow project={project} navigate={navigate} workPage key={project.slug} />)}</div></main>
+  return <main className="shell page-main"><PageIntro index="01" title="Selected work" text={pages.workIntro} /><div className="all-work">{projects.map((project) => <ProjectRow project={project} navigate={navigate} workPage key={project.slug} />)}</div></main>
 }
 
 function PageIntro({ index, title, text }: { index: string; title: string; text: string }) {
@@ -231,7 +231,7 @@ function InfoSection({ title, children }: { title: string; children: ReactNode }
 function CV() {
   return (
     <main className="shell page-main">
-      <PageIntro index="03" title="Curriculum vitae" text="A concise record of selected work, technical focus, and experience." />
+      <PageIntro index="03" title="Curriculum vitae" text={pages.cvIntro} />
       <div className="cv-actions"><button className="primary-button" onClick={() => window.print()}><Icon name="download" />Download as PDF</button><span>Opens your print dialogue — choose “Save as PDF”</span></div>
       <article className="cv-sheet">
         <header><div><h2>Emmanuel Koranteng<br />Ankamah</h2><p>{profile.role}</p></div><div><a href={`mailto:${profile.email}`}>{profile.email}</a><span>{profile.location}</span><span>Available internationally</span></div></header>
@@ -279,7 +279,7 @@ function Contact() {
   }
   return (
     <main className="shell page-main contact-page">
-      <PageIntro index="04" title="Let’s talk." text="For thoughtful product work, technical collaborations, or an engineering role." />
+      <PageIntro index="04" title={pages.contactTitle} text={pages.contactIntro} />
       <div className="contact-grid">
         <div className="contact-primary"><span className="eyebrow">The best route</span><a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a><p>I usually reply within two working days. Based in Ghana and comfortable working across time zones.</p><div><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href={profile.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a></div></div>
         <form className="contact-form" onSubmit={submit}>

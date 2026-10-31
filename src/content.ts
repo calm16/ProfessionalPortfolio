@@ -33,8 +33,7 @@ export const profile = {
   email: 'emmanuelkorantenga@gmail.com',
   linkedin: 'https://www.linkedin.com/in/emmanuel-koranteng-ankamah-2ab032330',
   github: 'https://github.com/calm16',
-  // NEEDS DECISION — one short line on what he is open to, or empty to show nothing.
-  availability: '',
+  availability: 'Open to engineering roles',
   // NEEDS REAL VALUE — portrait photograph, professional shoot booked.
   portrait: '',
 }
@@ -60,6 +59,15 @@ export const about = {
     'Currently at FarmaNet, I work on machine learning systems supporting agricultural decision-making. It is work I did not expect to be doing, and it sharpened what I now look for in any system: the quality of its reasoning, not only its output. A model short of data can decline to answer, or it can give a considered estimate and state exactly how much weight that estimate deserves. The second takes research and judgement before it takes code, and it is the difference between a system that is technically correct and one that is genuinely usable.',
     'Longer term, what I am working toward is a tech startup of my own — contract work for organisations alongside products we originate ourselves, built from the limitations we continue to encounter in the systems enterprises already run.',
   ],
+}
+
+// Headings and standfirsts for each page. The contact band closes the home page.
+export const pages = {
+  workIntro: 'Three production systems, built for clients and running under real conditions.',
+  cvIntro: 'A concise record of selected work, technical focus, and experience.',
+  contactTitle: 'Let’s talk.',
+  contactIntro: 'For client work, technical collaboration, or an engineering role.',
+  contactBandHeading: 'Have a system worth building?',
 }
 
 export const projects: Project[] = [
@@ -190,9 +198,8 @@ export const experience: [string, string, string][] = [
     'Contracted on a permanent basis. Machine-learning systems for agricultural decision-making, including the crop yield estimator.',
   ],
   [
-    // NEEDS REAL VALUE — start date for the commissioned work.
     'Commissioned software engineering',
-    '',
+    'Aug 2026 — present',
     'Production systems built for clients, including SwiftVote and DrinkFresh.',
   ],
   [
