@@ -1,5 +1,6 @@
-// Contact form endpoint. Deployed as a serverless function so the Brevo API key
-// and the destination address never reach the browser.
+// Contact form endpoint, served at /api/contact by the redirect in netlify.toml.
+// Runs as a function so the Brevo API key and the destination address never
+// reach the browser.
 //
 // Required environment variables:
 //   BREVO_API_KEY    transactional email key from the Brevo dashboard

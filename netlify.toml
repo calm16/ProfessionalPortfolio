@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# /api/contact reaches the function. This rule must come first — the catch-all
+# below would otherwise swallow it and answer with the page.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Client-side routing: every other path serves the app, so loading or
+# refreshing /work/swiftvote directly works instead of returning a 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
