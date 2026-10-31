@@ -129,8 +129,8 @@ export const projects: Project[] = [
     liveUrl: '',
     // NEEDS APPROVAL — captions describe what each screen shows.
     images: [
-      { src: '/work/farmanet/prediction.webp', caption: 'A completed estimate: yield per hectare, a confidence band drawn from the spread across the model’s trees, and a breakdown of what drove the number.' },
-      { src: '/work/farmanet/estimator.webp', caption: 'Before a run, the estimator states what it has been trained on — records, farms, seasons, zones and crops.' },
+      { src: '/work/farmanet/prediction.webp', caption: 'A completed estimate: yield per hectare, a confidence band, and a breakdown of what drove the number.' },
+      { src: '/work/farmanet/estimator.webp', caption: 'Before a run, the estimator states what it has been trained on, so the reader knows what is behind the number.' },
       { src: '/work/farmanet/planting-window.webp', caption: 'Planting inputs checked against the normal window for that crop and zone, with the data coverage behind the estimate stated plainly.' },
       { src: '/work/farmanet/no-comparable-data.webp', caption: 'The honesty layer. No comparable farms exist in training data for this crop and region, so the system still answers but marks the estimate indicative and the risk high.' },
       { src: '/work/farmanet/locations-history.webp', caption: 'Farm locations and a running history of the predictions made in a session.' },
