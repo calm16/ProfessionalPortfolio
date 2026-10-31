@@ -170,8 +170,7 @@ export const projects: Project[] = [
       'DrinkFresh is the commercial presence for a fresh yoghurt business. Customers build and customise their own orders for delivery, trade buyers purchase at wholesale, and anyone can find where to buy in person — pickup points, vending stations and general sales points for walk-ins. The site also carries the brand’s public-facing presence and publicity.',
     // NEEDS REAL VALUE — the hard problem. Section hidden until supplied.
     constraint: '',
-    // NEEDS REAL VALUE — section hidden until supplied.
-    architecture: [],
+    architecture: ['Next.js storefront and admin', 'Route handlers and PostgreSQL', 'Junipay, Cloudinary, Brevo'],
     // NEEDS REAL VALUE — section hidden until supplied.
     tradeoffs: [],
     stackGroups: [
