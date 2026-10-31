@@ -47,18 +47,18 @@ export const home = {
     'I’m Emmanuel Koranteng Ankamah. I design and engineer dependable software across payments, applied AI, and digital products.',
 }
 
-// NEEDS APPROVAL — paragraphs three, four and five are shaped from what Emmanuel
-// described in his own words and have not been signed off yet. The first two are
-// approved as they stand.
+// Approved by Emmanuel. Written as one arc — foundation, infrastructure, commissioned
+// work, current work, what he is building toward — rather than a list of topics, so the
+// register stays level. Formal throughout: no contractions.
 export const about = {
   intro:
-    'What I care about is how a system behaves when it doesn’t have what it needs.',
+    'I am interested in how a system holds up when conditions are not ideal — unclear requirements, no precedent to follow, thin data.',
   paragraphs: [
-    'I’m Emmanuel, a software and AI engineer based in Ghana. My work sits across product engineering, backend systems, and applied machine learning.',
-    'I’m drawn to projects where software meets operational reality: intermittent connectivity, asynchronous payments, incomplete data, and changing requirements. Those constraints are not edge cases; they are the material of the work.',
-    'On the crop yield estimator, whole agroecological zones had no training data at all. The easy answer is for the model to refuse — no data, no prediction. Instead I built a research layer underneath it: conventional harvest rates for those zones, and the long-run climate and weather patterns, pulled from several sources and reconciled into one standard we could defend. A zone we had never observed still gets a sensible estimate, and the model explains, from its decision trees and its nearest-neighbour counts, that its confidence is low and exactly why. That is the part of the work I care about — the reasoning, not just the output.',
-    'I didn’t expect to end up here. Software engineering, to me, meant building production systems for clients; I never pictured myself on a data science project, and then I fell for one. It taught me engineering practice I wouldn’t have learned otherwise. I’m not precious about which problems I take — the range is the point.',
-    'Over the next three years I’m building my own tech company, with people who share the view. Contract work for companies, but also our own products, built from the limitations we keep seeing in the systems enterprises already run. Not only building what we’re asked to build.',
+    'I am a software and AI engineer based in Ghana, working across product engineering, backend systems and applied machine learning. My foundation is in systems design — service boundaries, data models, and the contracts between them — and most of what I build is meant to run in production rather than demonstrate an idea.',
+    'I began in enterprise infrastructure. During my national service at the Electricity Company of Ghana I worked across server configuration, network systems and recovery operations — which is where I learned what it costs when a system people depend on stops working.',
+    'Since then my work has been commissioned: production systems built for clients and running under real conditions. That is where software meets operational reality — intermittent connectivity, asynchronous payments, incomplete data, and requirements that change while you build. Those constraints are not edge cases; they are the material of the work.',
+    'Currently at FarmaNet, I work on machine learning systems supporting agricultural decision-making. It is work I did not expect to be doing, and it sharpened what I now look for in any system: the quality of its reasoning, not only its output. A model short of data can decline to answer, or it can give a considered estimate and state exactly how much weight that estimate deserves. The second takes research and judgement before it takes code, and it is the difference between a system that is technically correct and one that is genuinely usable.',
+    'Longer term, what I am working toward is a tech startup of my own — contract work for organisations alongside products we originate ourselves, built from the limitations we continue to encounter in the systems enterprises already run.',
   ],
 }
 
