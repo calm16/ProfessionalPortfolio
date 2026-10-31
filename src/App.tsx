@@ -1,5 +1,5 @@
 import { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
-import { education, experience, profile, projects, tools, type Project } from './content'
+import { about, education, experience, home, profile, projects, tools, type Project } from './content'
 
 function Icon({ name }: { name: 'arrow' | 'moon' | 'sun' | 'menu' | 'close' | 'download' | 'external' }) {
   const paths: Record<typeof name, ReactNode> = {
@@ -71,9 +71,9 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
     <main>
       <section className="hero shell">
         <p className="eyebrow">{profile.role} · {profile.location}</p>
-        <h1>I build production systems for <span>real-world complexity.</span></h1>
+        <h1>{home.headlineLead} <span>{home.headlineEmphasis}</span></h1>
         <div className="hero-bottom">
-          <p>I’m Emmanuel Koranteng Ankamah. I design and engineer dependable software across payments, applied AI, and digital products.</p>
+          <p>{home.intro}</p>
           <ArrowLink onClick={() => navigate('/work')}>Explore selected work</ArrowLink>
         </div>
       </section>
@@ -208,13 +208,13 @@ function Architecture({ steps }: { steps: string[] }) {
 function About() {
   return (
     <main className="shell page-main">
-      <PageIntro index="02" title="Engineer, in context." text="I care about the space between a sound technical decision and a system that genuinely works for the people using it." />
+      <PageIntro index="02" title="Engineer, in context." text={about.intro} />
       <section className="about-lead">
-        <div className="portrait" aria-label="Portrait placeholder for Emmanuel Koranteng Ankamah"><span>EKA</span><small>Accra, GH</small></div>
+        {profile.portrait
+          ? <img className="portrait-photo" src={profile.portrait} alt={profile.name} />
+          : <div className="portrait" aria-label={`Portrait of ${profile.name} not yet added`}><span>EKA</span><small>{profile.location}</small></div>}
         <div className="about-copy">
-          <p>I’m Emmanuel, a software and AI engineer based in Ghana. My work sits across product engineering, backend systems, and applied machine learning.</p>
-          <p>I’m drawn to projects where software meets operational reality: intermittent connectivity, asynchronous payments, incomplete data, and changing requirements. Those constraints are not edge cases; they are the material of the work.</p>
-          <p>I work closely with clients and stakeholders to move from a useful question to a maintainable system—without hiding the tradeoffs along the way.</p>
+          {about.paragraphs.map((paragraph) => <p key={paragraph.slice(0, 40)}>{paragraph}</p>)}
         </div>
       </section>
       <InfoSection title="Experience">{experience.map(([title, date, desc]) => <div className="experience-row" key={title}><h3>{title}</h3>{date && <span>{date}</span>}<p>{desc}</p></div>)}</InfoSection>

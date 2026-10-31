@@ -372,3 +372,5 @@
 .contact-form .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .contact-form .form-error { margin-top: 10px; color: #e2563f; font-size: 14px; }
 .contact-form .primary-button[disabled] { opacity: .6; cursor: progress; }
+
+.about-lead .portrait-photo { width: 100%; height: auto; border-radius: 10px; object-fit: cover; }

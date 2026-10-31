@@ -39,6 +39,29 @@ export const profile = {
   portrait: '',
 }
 
+// Approved by Emmanuel: the headline and the two sentences under it.
+export const home = {
+  headlineLead: 'I build production systems for',
+  headlineEmphasis: 'real-world complexity.',
+  intro:
+    'I’m Emmanuel Koranteng Ankamah. I design and engineer dependable software across payments, applied AI, and digital products.',
+}
+
+// NEEDS APPROVAL — paragraphs three, four and five are shaped from what Emmanuel
+// described in his own words and have not been signed off yet. The first two are
+// approved as they stand.
+export const about = {
+  intro:
+    'What I care about is how a system behaves when it doesn’t have what it needs.',
+  paragraphs: [
+    'I’m Emmanuel, a software and AI engineer based in Ghana. My work sits across product engineering, backend systems, and applied machine learning.',
+    'I’m drawn to projects where software meets operational reality: intermittent connectivity, asynchronous payments, incomplete data, and changing requirements. Those constraints are not edge cases; they are the material of the work.',
+    'On the crop yield estimator, whole agroecological zones had no training data at all. The easy answer is for the model to refuse — no data, no prediction. Instead I built a research layer underneath it: conventional harvest rates for those zones, and the long-run climate and weather patterns, pulled from several sources and reconciled into one standard we could defend. A zone we had never observed still gets a sensible estimate, and the model explains, from its decision trees and its nearest-neighbour counts, that its confidence is low and exactly why. That is the part of the work I care about — the reasoning, not just the output.',
+    'I didn’t expect to end up here. Software engineering, to me, meant building production systems for clients; I never pictured myself on a data science project, and then I fell for one. It taught me engineering practice I wouldn’t have learned otherwise. I’m not precious about which problems I take — the range is the point.',
+    'Over the next three years I’m building my own tech company, with people who share the view. Contract work for companies, but also our own products, built from the limitations we keep seeing in the systems enterprises already run. Not only building what we’re asked to build.',
+  ],
+}
+
 export const projects: Project[] = [
   {
     slug: 'swiftvote',
