@@ -367,3 +367,8 @@
   .case-main > .project-visual .browser { width: 100%; }
   .case-main > .project-visual { min-height: 0; }
 }
+
+/* Contact form */
+.contact-form .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form .form-error { margin-top: 10px; color: #e2563f; font-size: 14px; }
+.contact-form .primary-button[disabled] { opacity: .6; cursor: progress; }

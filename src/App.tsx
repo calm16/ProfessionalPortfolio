@@ -249,19 +249,50 @@ function CvSection({ title, children }: { title: string; children: ReactNode }) 
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false)
-  const submit = (event: FormEvent) => { event.preventDefault(); setSent(true) }
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [error, setError] = useState('')
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const form = event.currentTarget
+    setStatus('sending')
+    setError('')
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      })
+      // Treat anything that is not an explicit JSON acknowledgement as a failure.
+      // A host that serves index.html for unknown routes answers 200 with HTML,
+      // and reporting that as sent would lose the message silently.
+      const body = (await response.json().catch(() => null)) as { ok?: string; error?: string } | null
+      if (!response.ok || body?.ok !== 'true') {
+        throw new Error(body?.error || 'That did not send. Please email directly.')
+      }
+      form.reset()
+      setStatus('sent')
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'That did not send. Please email directly.')
+      setStatus('error')
+    }
+  }
   return (
     <main className="shell page-main contact-page">
       <PageIntro index="04" title="Let’s talk." text="For thoughtful product work, technical collaborations, or an engineering role." />
       <div className="contact-grid">
         <div className="contact-primary"><span className="eyebrow">The best route</span><a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a><p>I usually reply within two working days. Based in Ghana and comfortable working across time zones.</p><div><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <Icon name="external" /></a><a href={profile.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a></div></div>
         <form className="contact-form" onSubmit={submit}>
-          <label><span>Name</span><input name="name" required placeholder="Your name" /></label>
-          <label><span>Email</span><input name="email" type="email" required placeholder="you@company.com" /></label>
+          <label><span>Name</span><input name="name" required placeholder="Your name" autoComplete="name" /></label>
+          <label><span>Email</span><input name="email" type="email" required placeholder="you@company.com" autoComplete="email" /></label>
           <label><span>Message</span><textarea name="message" required rows={6} placeholder="A little about what you’re working on..." /></label>
-          <button className="primary-button" type="submit">{sent ? 'Message noted' : 'Send message'}<Icon name="arrow" /></button>
-          {sent && <p className="form-note">Thank you. Please also email Emmanuel directly for the quickest response.</p>}
+          <label className="honeypot" aria-hidden="true"><span>Company</span><input name="company" tabIndex={-1} autoComplete="off" /></label>
+          <button className="primary-button" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Message sent' : 'Send message'}
+            <Icon name="arrow" />
+          </button>
+          <p className="form-note" role="status">{status === 'sent' ? `Thank you — that reached ${profile.email}. I usually reply within two working days.` : ''}</p>
+          {status === 'error' && <p className="form-error" role="alert">{error}</p>}
         </form>
       </div>
     </main>
