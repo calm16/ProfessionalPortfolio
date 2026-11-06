@@ -244,6 +244,49 @@
 .contact-form .primary-button { width: 100%; }
 .form-note { margin-top: 17px; color: var(--muted); font-size: 13px; }
 
+/* --- Hero system diagram ------------------------------------------------- */
+
+/* A schematic of the thing the page is about: a route drawn up through a grid
+   from interface to infrastructure. It hangs past the content column, so the
+   page needs horizontal clipping — clip rather than hidden, which would break
+   the sticky header. Clipping body alone leaves the document scrollable
+   sideways, hence both elements. */
+html, body { overflow-x: clip; }
+
+/* Drawn on the theme tokens rather than fixed colours, so it inverts with the
+   rest of the page instead of needing a second version for dark. This block
+   sits above the breakpoints on purpose: it is no more specific than the
+   overrides below, so coming after them would silently win over all of them. */
+.hero { position: relative; isolation: isolate; }
+.hero > :not(.hero-system) { position: relative; z-index: 1; }
+.hero-system { position: absolute; z-index: 0; width: min(52vw, 690px); top: 23px; right: -88px; color: var(--line); pointer-events: none; opacity: .76; overflow: hidden; }
+.hero-system svg { width: 100%; height: auto; display: block; }
+.system-grid { stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+/* No non-scaling-stroke here: it resolves the dash array in screen pixels,
+   which discards the pathLength="1" normalisation and leaves the route as a
+   1px dotted hairline that never draws. */
+.system-route { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: route-draw 1.7s cubic-bezier(.65, 0, .35, 1) .25s forwards; }
+.system-nodes { fill: var(--bg); stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+
+/* The nodes arrive one at a time, timed to the route reaching each one. */
+.system-nodes circle { opacity: 0; transform-box: fill-box; transform-origin: center; animation: node-arrive .34s cubic-bezier(.2, .8, .2, 1) forwards; }
+.system-nodes circle:nth-child(1) { animation-delay: .32s; }
+.system-nodes circle:nth-child(2) { animation-delay: .58s; }
+.system-nodes circle:nth-child(3) { animation-delay: .82s; }
+.system-nodes circle:nth-child(4) { animation-delay: 1.08s; }
+.system-nodes circle:nth-child(5) { animation-delay: 1.36s; }
+.system-nodes circle:nth-child(6) { animation-delay: 1.68s; }
+.system-labels { fill: var(--muted); font: 500 10px 'Geist Mono', monospace; letter-spacing: .12em; }
+
+@keyframes route-draw { to { stroke-dashoffset: 0; } }
+@keyframes node-arrive {
+  0% { opacity: 0; transform: scale(.45); }
+  70% { opacity: 1; transform: scale(1.18); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* --- Breakpoints --------------------------------------------------------- */
+
 @media (max-width: 900px) {
   .hero-system { width: 620px; right: -285px; opacity: .62; }
   .featured-project { grid-template-columns: 1fr; }
@@ -274,8 +317,9 @@
   .theme-toggle { min-height: 54px; margin: auto 0 0; justify-content: center; }
   .hero { padding-block: 70px 90px; }
   /* Too little width for the labels or the full route; the first three nodes
-     keep the shape readable. */
-  .hero-system { width: 430px; top: -12px; right: -255px; opacity: .58; }
+     keep the shape readable. The headline runs the full column here, so the
+     diagram drops to the hero's bottom-right, clear of every line of text. */
+  .hero-system { width: 300px; top: auto; bottom: 0; right: -150px; opacity: .5; }
   .hero-system .system-labels, .hero-system .system-route { display: none; }
   .hero-system .system-nodes circle:nth-child(n+4) { display: none; }
   .hero h1 { margin-top: 24px; font-size: clamp(45px, 13vw, 62px); line-height: .98; }
@@ -292,13 +336,16 @@
   .metric-row div { padding: 10px; }
   .metric-row b { font-size: 11px; }
   .bars { height: 55px; margin-top: 15px; }
-  .featured-copy { min-height: auto; padding: 28px 22px 32px; }
+  /* The copy half of a card, not the preview, is what makes it overrun a phone
+     screen. Everything below tightens that block without touching type. */
+  .featured-copy { min-height: auto; padding: 24px 20px 26px; }
   .project-title-line { align-items: flex-start; }
   .project-title-line h2 { font-size: 40px; }
-  .project-lede { font-size: 16px; }
-  .fact-grid { margin-block: 27px; }
-  .featured-copy > .arrow-link { margin-top: 5px; }
-  .project-row, .work-row { padding-block: 40px; grid-template-columns: 1fr; gap: 30px; }
+  .project-lede { margin-top: 18px; font-size: 16px; }
+  .fact-grid { margin-block: 20px; }
+  .fact-grid div { min-height: 48px; }
+  .featured-copy > .arrow-link { margin-top: 5px; padding-top: 24px; }
+  .project-row, .work-row { padding-block: 32px; grid-template-columns: 1fr; gap: 24px; }
   .project-row .project-visual { min-height: 260px; }
   .project-row h3 { font-size: 37px; }
   .project-row-copy > p { font-size: 16px; }
@@ -313,16 +360,22 @@
   .page-intro h1 { font-size: 55px; line-height: .95; }
   .page-intro > p:last-child { font-size: 16px; margin-top: 27px; }
   .case-main { padding-block: 35px 90px; }
-  .case-title-row { margin-top: 43px; align-items: flex-start; flex-direction: column; }
+  .case-title-row { margin-top: 32px; align-items: flex-start; flex-direction: column; }
   .case-title-row h1 { font-size: 57px; }
   .case-title-row > .status { margin: 0; }
-  .case-meta { margin-block: 45px 25px; grid-template-columns: 1fr 1fr; }
+  .case-meta { margin-block: 34px 20px; grid-template-columns: 1fr 1fr; }
   .case-meta > div:first-child { grid-column: 1 / -1; }
   .case-main > .project-visual { min-height: 340px; padding: 25px; }
   .case-main > .project-visual .browser { width: 100%; }
-  .case-body { margin-top: 65px; }
-  .case-section { padding-block: 48px; grid-template-columns: 1fr; gap: 27px; }
+  /* A case study runs to seven screens on a phone; the air between sections is
+     most of that. Spacing only here — the reading size stays put. */
+  .case-body { margin-top: 48px; }
+  .case-section { padding-block: 38px; grid-template-columns: 1fr; gap: 22px; }
   .case-content > p { font-size: 17px; }
+  .case-label h2 { margin-top: 9px; }
+  .tradeoffs li { padding-block: 16px; }
+  .gallery { gap: 24px; }
+  .architecture { margin-top: 30px; }
   .architecture { padding: 18px; grid-template-columns: 1fr; }
   .architecture > div { min-height: 85px; }
   .architecture > i { transform: rotate(90deg); justify-self: center; }
@@ -352,6 +405,54 @@
   .contact-form { padding: 28px 22px; }
   .drink-ui { padding: 25px; }
   .bottle { margin-right: 0; }
+}
+
+/* Small phones (Galaxy A20 and the like). The layout above already fits here;
+   what it lacks is proportion, so this tier steps the whole type scale down by
+   one notch and trims the vertical rhythm to match. Kept as a single block on
+   purpose: every page scales together, so none of them drifts out of step with
+   the others. */
+@media (max-width: 400px) {
+  /* Display and headings */
+  .hero h1 { font-size: clamp(40px, 11.5vw, 54px); }
+  .page-intro h1 { font-size: 46px; }
+  .case-title-row h1 { font-size: 46px; }
+  .contact-band h2 { font-size: 36px; }
+  .project-title-line h2 { font-size: 34px; }
+  .project-row h3 { font-size: 31px; }
+  .cv-sheet > header h2 { font-size: 32px; }
+  .info-section > h2 { font-size: 21px; }
+  .case-label h2 { font-size: 22px; }
+  .case-pagination b { font-size: 16px; }
+  .experience-row h3, .education h3 { font-size: 16px; }
+  .cv-entry h3 { font-size: 16px; }
+
+  /* Body and links */
+  .case-content > p { font-size: 16px; }
+  .about-copy p { font-size: 19px; }
+  .about-copy p:not(:first-child) { font-size: 16px; }
+  .page-intro > p:last-child { font-size: 15px; }
+  .project-lede { font-size: 15px; }
+  .project-row-copy > p { font-size: 15px; }
+  .gallery figcaption { font-size: 14px; }
+  .email-display { font-size: 23px; }
+  .contact-primary > a { font-size: 26px; }
+
+  /* The smaller headline shortens the hero, which lifts the diagram into the
+     intro paragraph. A smaller diagram sits lower and stays clear of it. */
+  .hero-system { width: 236px; right: -118px; }
+
+  /* The preview half of a card, cropped so a card fits the screen it is on. */
+  .project-visual.featured { min-height: 290px; }
+  .project-row .project-visual { min-height: 220px; }
+
+  /* Vertical rhythm, stepped down with the type so the ratio holds. */
+  .hero { padding-block: 58px 74px; }
+  .section { padding-bottom: 76px; }
+  .page-main { padding-block: 52px 76px; }
+  .contact-band { padding-block: 64px 34px; }
+  .case-section { padding-block: 32px; }
+  .info-section { padding-block: 40px; }
 }
 
 @media print {
@@ -484,45 +585,6 @@
   .reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
   .project-row .project-visual .browser { transition: none; }
   .project-row:hover .project-visual .browser { transform: none; }
-}
-
-/* --- Hero system diagram ------------------------------------------------- */
-
-/* A schematic of the thing the page is about: a route drawn up through a grid
-   from interface to infrastructure. It hangs past the content column, so the
-   page needs horizontal clipping — clip rather than hidden, which would break
-   the sticky header. Clipping body alone leaves the document scrollable
-   sideways, hence both elements. */
-html, body { overflow-x: clip; }
-
-/* Drawn on the theme tokens rather than fixed colours, so it inverts with the
-   rest of the page instead of needing a second version for dark. */
-.hero { position: relative; isolation: isolate; }
-.hero > :not(.hero-system) { position: relative; z-index: 1; }
-.hero-system { position: absolute; z-index: 0; width: min(52vw, 690px); top: 23px; right: -88px; color: var(--line); pointer-events: none; opacity: .76; overflow: hidden; }
-.hero-system svg { width: 100%; height: auto; display: block; }
-.system-grid { stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
-/* No non-scaling-stroke here: it resolves the dash array in screen pixels,
-   which discards the pathLength="1" normalisation and leaves the route as a
-   1px dotted hairline that never draws. */
-.system-route { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: route-draw 1.7s cubic-bezier(.65, 0, .35, 1) .25s forwards; }
-.system-nodes { fill: var(--bg); stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
-
-/* The nodes arrive one at a time, timed to the route reaching each one. */
-.system-nodes circle { opacity: 0; transform-box: fill-box; transform-origin: center; animation: node-arrive .34s cubic-bezier(.2, .8, .2, 1) forwards; }
-.system-nodes circle:nth-child(1) { animation-delay: .32s; }
-.system-nodes circle:nth-child(2) { animation-delay: .58s; }
-.system-nodes circle:nth-child(3) { animation-delay: .82s; }
-.system-nodes circle:nth-child(4) { animation-delay: 1.08s; }
-.system-nodes circle:nth-child(5) { animation-delay: 1.36s; }
-.system-nodes circle:nth-child(6) { animation-delay: 1.68s; }
-.system-labels { fill: var(--muted); font: 500 10px 'Geist Mono', monospace; letter-spacing: .12em; }
-
-@keyframes route-draw { to { stroke-dashoffset: 0; } }
-@keyframes node-arrive {
-  0% { opacity: 0; transform: scale(.45); }
-  70% { opacity: 1; transform: scale(1.18); }
-  100% { opacity: 1; transform: scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
