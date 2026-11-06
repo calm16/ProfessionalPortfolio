@@ -258,9 +258,11 @@ html, body { overflow-x: clip; }
    sits above the breakpoints on purpose: it is no more specific than the
    overrides below, so coming after them would silently win over all of them. */
 .hero { position: relative; isolation: isolate; }
-.hero > :not(.hero-system) { position: relative; z-index: 1; }
-.hero-system { position: absolute; z-index: 0; width: min(52vw, 690px); top: 23px; right: -88px; color: var(--line); pointer-events: none; opacity: .76; overflow: hidden; }
-.hero-system svg { width: 100%; height: auto; display: block; }
+.hero > :not(.hero-system):not(.hero-dots) { position: relative; z-index: 1; }
+/* Two layers on identical boxes and one viewBox, so the nodes land exactly on
+   the route's corners and the pair reads as a single drawing. */
+.hero-system, .hero-dots { position: absolute; z-index: 0; width: min(52vw, 690px); top: 23px; right: -88px; color: var(--line); pointer-events: none; opacity: .76; overflow: hidden; }
+.hero-system svg, .hero-dots svg { width: 100%; height: auto; display: block; }
 .system-grid { stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
 /* No non-scaling-stroke here: it resolves the dash array in screen pixels,
    which discards the pathLength="1" normalisation and leaves the route as a
@@ -288,7 +290,7 @@ html, body { overflow-x: clip; }
 /* --- Breakpoints --------------------------------------------------------- */
 
 @media (max-width: 900px) {
-  .hero-system { width: 620px; right: -285px; opacity: .62; }
+  .hero-system, .hero-dots { width: 620px; right: -285px; opacity: .62; }
   .featured-project { grid-template-columns: 1fr; }
   .project-visual.featured { min-height: 500px; }
   .featured-copy { min-height: 480px; }
@@ -315,13 +317,21 @@ html, body { overflow-x: clip; }
   .nav-link { min-height: 68px; padding: 0; border-bottom: 1px solid var(--line); text-align: left; font-size: 29px; letter-spacing: -.03em; color: var(--text); }
   .nav-link.active { text-decoration: none; color: var(--accent); }
   .theme-toggle { min-height: 54px; margin: auto 0 0; justify-content: center; }
-  .hero { padding-block: 70px 90px; }
-  /* Too little width for the labels or the full route; the first three nodes
-     keep the shape readable. The headline runs the full column here, so the
-     diagram drops to the hero's bottom-right, clear of every line of text. */
-  .hero-system { width: 300px; top: auto; bottom: 0; right: -150px; opacity: .5; }
+  /* The extra bottom padding is the nodes' home: a band that is empty by
+     definition, so no width can push a line of text into them. */
+  .hero { padding-block: 70px 150px; }
+  /* The grid keeps the place it was designed for, behind the headline. Too
+     little width here for the labels or the full route. */
+  .hero-system { width: 430px; top: -12px; right: -255px; opacity: .58; }
   .hero-system .system-labels, .hero-system .system-route { display: none; }
-  .hero-system .system-nodes circle:nth-child(n+4) { display: none; }
+
+  /* The headline fills the column at this width, so the nodes leave the grid
+     and sit in the hero's own bottom padding — empty by construction, which
+     is what keeps them off the text at any phone size rather than at one.
+     The smaller box shrinks them, so the radius is given back in user units. */
+  .hero-dots { width: 175px; top: auto; bottom: 12px; right: -40px; opacity: .72; }
+  .hero-dots .system-nodes circle { r: 16; }
+  .hero-dots .system-nodes circle:nth-child(n+4) { display: none; }
   .hero h1 { margin-top: 24px; font-size: clamp(45px, 13vw, 62px); line-height: .98; }
   .hero-bottom { margin-top: 38px; padding-top: 20px; flex-direction: column; gap: 25px; }
   .hero-bottom > p { font-size: 17px; }
@@ -438,16 +448,15 @@ html, body { overflow-x: clip; }
   .email-display { font-size: 23px; }
   .contact-primary > a { font-size: 26px; }
 
-  /* The smaller headline shortens the hero, which lifts the diagram into the
-     intro paragraph. A smaller diagram sits lower and stays clear of it. */
-  .hero-system { width: 236px; right: -118px; }
+  .hero-system { width: 360px; right: -215px; }
+  .hero-dots { width: 158px; right: -34px; }
 
   /* The preview half of a card, cropped so a card fits the screen it is on. */
   .project-visual.featured { min-height: 290px; }
   .project-row .project-visual { min-height: 220px; }
 
   /* Vertical rhythm, stepped down with the type so the ratio holds. */
-  .hero { padding-block: 58px 74px; }
+  .hero { padding-block: 58px 134px; }
   .section { padding-bottom: 76px; }
   .page-main { padding-block: 52px 76px; }
   .contact-band { padding-block: 64px 34px; }
