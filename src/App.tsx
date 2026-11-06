@@ -87,9 +87,6 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
   return (
     <main>
       <section className="hero shell">
-        {/* Grid and nodes are two layers sharing one viewBox. Stacked on the
-            same box they read as a single drawing; on a phone, where the
-            headline fills the column, the nodes move on their own. */}
         <div className="hero-system" aria-hidden="true">
           <svg viewBox="0 0 640 620" fill="none">
             <g className="system-grid">
@@ -97,15 +94,6 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
               <path d="M20 80h600M20 200h600M20 320h600M20 440h600M20 560h600" />
             </g>
             <path className="system-route" pathLength="1" d="M80 560V440h120V320h240V200h120V80" />
-            <g className="system-labels">
-              <text x="96" y="547">INTERFACE</text>
-              <text x="218" y="270">API</text>
-              <text x="458" y="187">INFRASTRUCTURE</text>
-            </g>
-          </svg>
-        </div>
-        <div className="hero-dots" aria-hidden="true">
-          <svg viewBox="0 0 640 620" fill="none">
             <g className="system-nodes">
               <circle cx="80" cy="560" r="7" />
               <circle cx="200" cy="440" r="7" />
@@ -113,6 +101,11 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
               <circle cx="440" cy="320" r="7" />
               <circle cx="440" cy="200" r="7" />
               <circle cx="560" cy="80" r="7" />
+            </g>
+            <g className="system-labels">
+              <text x="96" y="547">INTERFACE</text>
+              <text x="218" y="270">API</text>
+              <text x="458" y="187">INFRASTRUCTURE</text>
             </g>
           </svg>
         </div>
