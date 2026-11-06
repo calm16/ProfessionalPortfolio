@@ -409,6 +409,47 @@ function useReveal(page: string) {
   }, [page])
 }
 
+// Routing happens on the client, so without this every route is indexed and
+// shared under the one title and description in index.html.
+function useDocumentMeta(page: string, project?: Project) {
+  useEffect(() => {
+    const suffix = `${profile.name} — ${profile.role}`
+    let title = suffix
+    let description =
+      `Software and AI engineer in ${profile.location}, building production systems across payments, applied machine learning, and digital products.`
+
+    if (project) {
+      title = `${project.title} — case study · ${profile.name}`
+      description = project.description
+    } else if (page === '/work') {
+      title = `Selected work · ${suffix}`
+      description = pages.workIntro
+    } else if (page === '/about') {
+      title = `About · ${suffix}`
+      // Search results cut off around 155 characters, so lead with the first
+      // sentence rather than letting the paragraph be truncated mid-thought.
+      description = `${about.paragraphs[0].split('. ')[0]}.`
+    } else if (page === '/cv') {
+      title = `CV · ${suffix}`
+      description = pages.cvIntro
+    } else if (page === '/contact') {
+      title = `Contact · ${suffix}`
+      description = pages.contactIntro
+    }
+
+    document.title = title
+    const set = (selector: string, attr: string, value: string) => {
+      const el = document.head.querySelector(selector)
+      if (el) el.setAttribute(attr, value)
+    }
+    set('meta[name="description"]', 'content', description)
+    set('meta[property="og:title"]', 'content', title)
+    set('meta[property="og:description"]', 'content', description)
+    set('link[rel="canonical"]', 'href', `https://emmanuelkorantenga.com${page === '/' ? '/' : page}`)
+    set('meta[property="og:url"]', 'content', `https://emmanuelkorantenga.com${page === '/' ? '/' : page}`)
+  }, [page, project])
+}
+
 export default function App() {
   const [page, setPage] = useState(window.location.pathname)
   // Dark is the default. A visitor's own choice is remembered and wins; their
@@ -430,6 +471,7 @@ export default function App() {
   }
   useReveal(page)
   const project = page.startsWith('/work/') ? projects.find((p) => `/work/${p.slug}` === page) : undefined
+  useDocumentMeta(page, project)
   let content: ReactNode
   if (project) content = <CaseStudy project={project} navigate={navigate} />
   else if (page === '/work') content = <Work navigate={navigate} />

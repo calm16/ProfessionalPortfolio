@@ -8,7 +8,12 @@
       name="description"
       content="Software and AI engineer in Ghana, building production systems across payments, applied machine learning, and digital products."
     />
+    <!-- Browsers prefer the SVG; Google's search results need a raster of at
+         least 48px, served from a stable URL and crawlable. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href="https://emmanuelkorantenga.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Emmanuel Koranteng Ankamah" />
@@ -23,6 +28,21 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://emmanuelkorantenga.com/og.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Emmanuel Koranteng Ankamah",
+        "jobTitle": "Software & AI Engineer",
+        "url": "https://emmanuelkorantenga.com/",
+        "image": "https://emmanuelkorantenga.com/og.png",
+        "address": { "@type": "PostalAddress", "addressCountry": "GH" },
+        "sameAs": [
+          "https://www.linkedin.com/in/emmanuel-koranteng-ankamah-2ab032330",
+          "https://github.com/calm16"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

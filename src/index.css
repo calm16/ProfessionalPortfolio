@@ -276,7 +276,10 @@ html, body { overflow-x: clip; }
 .system-nodes { fill: var(--bg); stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
 
 /* The nodes arrive one at a time, timed to the route reaching each one. */
-.system-nodes circle { opacity: 0; transform-box: fill-box; transform-origin: center; animation: node-arrive .34s cubic-bezier(.2, .8, .2, 1) forwards; }
+/* --ny moves a single node off its route corner, in viewBox units. It is
+   carried through the keyframes because the animation's own transform would
+   otherwise overwrite a static one. */
+.system-nodes circle { --ny: 0px; opacity: 0; transform-box: fill-box; transform-origin: center; animation: node-arrive .34s cubic-bezier(.2, .8, .2, 1) forwards; }
 .system-nodes circle:nth-child(1) { animation-delay: .32s; }
 .system-nodes circle:nth-child(2) { animation-delay: .58s; }
 .system-nodes circle:nth-child(3) { animation-delay: .82s; }
@@ -287,9 +290,9 @@ html, body { overflow-x: clip; }
 
 @keyframes route-draw { to { stroke-dashoffset: 0; } }
 @keyframes node-arrive {
-  0% { opacity: 0; transform: scale(.45); }
-  70% { opacity: 1; transform: scale(1.18); }
-  100% { opacity: 1; transform: scale(1); }
+  0% { opacity: 0; transform: translateY(var(--ny)) scale(.45); }
+  70% { opacity: 1; transform: translateY(var(--ny)) scale(1.18); }
+  100% { opacity: 1; transform: translateY(var(--ny)) scale(1); }
 }
 
 /* --- Breakpoints --------------------------------------------------------- */
@@ -456,13 +459,12 @@ html, body { overflow-x: clip; }
 @media (max-width: 400px) {
   :root { --fs: .93; --sp: .76; }
 
-  /* The nodes sit on grid vertices. At this width they land a row too low —
-     the pair on the second column on the third and fourth vertices, and the
-     lower one past the rule, inside the intro paragraph. One row up puts the
-     pair on the second and third, and the lower one on the grid line that
-     runs just above the rule. The route is hidden here, so the nodes are free
-     of it; 120 is exactly one row of the viewBox. */
-  .hero-system .system-nodes { transform: translateY(-120px); }
+  /* Two vertical grid lines fall inside this width. The pair on the right one
+     moves up a row, to the second and third vertices; the single node on the
+     left line stays on the fifth. The route is hidden here, so the nodes are
+     free of its corners; 120 is exactly one row of the viewBox. */
+  .hero-system .system-nodes circle:nth-child(2),
+  .hero-system .system-nodes circle:nth-child(3) { --ny: -120px; }
 }
 
 @media print {
@@ -600,5 +602,5 @@ html, body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   .system-route, .system-nodes circle, .page-transition { animation: none; }
   .system-route { stroke-dashoffset: 0; }
-  .system-nodes circle { opacity: 1; transform: none; }
+  .system-nodes circle { opacity: 1; transform: translateY(var(--ny)); }
 }
