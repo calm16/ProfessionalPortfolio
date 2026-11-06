@@ -87,6 +87,28 @@ function Home({ navigate }: { navigate: (path: string) => void }) {
   return (
     <main>
       <section className="hero shell">
+        <div className="hero-system" aria-hidden="true">
+          <svg viewBox="0 0 640 620" fill="none">
+            <g className="system-grid">
+              <path d="M80 20v580M200 20v580M320 20v580M440 20v580M560 20v580" />
+              <path d="M20 80h600M20 200h600M20 320h600M20 440h600M20 560h600" />
+            </g>
+            <path className="system-route" pathLength="1" d="M80 560V440h120V320h240V200h120V80" />
+            <g className="system-nodes">
+              <circle cx="80" cy="560" r="7" />
+              <circle cx="200" cy="440" r="7" />
+              <circle cx="200" cy="320" r="7" />
+              <circle cx="440" cy="320" r="7" />
+              <circle cx="440" cy="200" r="7" />
+              <circle cx="560" cy="80" r="7" />
+            </g>
+            <g className="system-labels">
+              <text x="96" y="547">INTERFACE</text>
+              <text x="218" y="270">API</text>
+              <text x="458" y="187">INFRASTRUCTURE</text>
+            </g>
+          </svg>
+        </div>
         <p className="eyebrow">{profile.role} · {profile.location}</p>
         <h1>{home.headlineLead} <span>{home.headlineEmphasis}</span></h1>
         <div className="hero-bottom">
@@ -415,5 +437,5 @@ export default function App() {
   else if (page === '/cv') content = <CV />
   else if (page === '/contact') content = <Contact />
   else content = <Home navigate={navigate} />
-  return <><Nav page={page} navigate={navigate} dark={dark} setDark={setDark} />{content}<footer className="footer shell"><span>© {new Date().getFullYear()} {profile.name}</span><span>Designed &amp; engineered in Ghana</span></footer></>
+  return <><Nav page={page} navigate={navigate} dark={dark} setDark={setDark} /><div className="page-transition" key={page}>{content}</div><footer className="footer shell"><span>© {new Date().getFullYear()} {profile.name}</span><span>Designed &amp; engineered in Ghana</span></footer></>
 }
