@@ -473,3 +473,39 @@
   .reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
   .hero .eyebrow, .hero h1, .hero-bottom { animation: none; }
 }
+
+/* --- Hero bloom ---------------------------------------------------------- */
+
+/* A soft wash of the accent colour off the right edge of the hero. It sits
+   behind the text and bleeds past the container to the viewport edge, so the
+   page needs horizontal clipping — clip rather than hidden, which would break
+   the sticky header. */
+/* Both: clipping body alone leaves the document scrollable sideways. */
+html, body { overflow-x: clip; }
+
+:root { --bloom: rgba(0, 86, 255, .20); }
+[data-theme='dark'] { --bloom: rgba(34, 119, 255, .30); }
+
+.hero { position: relative; isolation: isolate; }
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: calc(50% - 50vw);
+  width: min(780px, 72vw);
+  aspect-ratio: 1;
+  transform: translate(0, -50%);
+  background: radial-gradient(circle at 58% 50%, var(--bloom) 0%, transparent 68%);
+  pointer-events: none;
+  animation: bloom-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes bloom-drift {
+  from { transform: translate(0, -50%) scale(1); }
+  to { transform: translate(-5%, -55%) scale(1.09); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { animation: none; }
+}
