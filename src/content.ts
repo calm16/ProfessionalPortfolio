@@ -42,7 +42,10 @@ export const profile = {
 // Approved by Emmanuel: the headline and the two sentences under it.
 export const home = {
   headlineLead: 'I build production systems for',
-  headlineEmphasis: 'real-world complexity.',
+  // The hyphen is U+2011 (non-breaking): an ordinary one lets the line break
+  // after "real-", which splits the compound and strands the fragment at the
+  // end of a line. Same glyph, same word.
+  headlineEmphasis: 'real‑world complexity.',
   intro:
     'I’m Emmanuel Koranteng Ankamah. I design and engineer dependable software across payments, applied AI, and digital products.',
 }

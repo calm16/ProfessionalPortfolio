@@ -14,6 +14,13 @@
   --on-accent: #ffffff;
   --header: rgba(255, 255, 255, 0.92);
   --max: 1240px;
+
+  /* The two knobs the phone tiers turn. Every size that changes by screen is
+     written once, as a multiple of one of these, so a device tier is a pair of
+     numbers rather than a page-by-page list — and no page can drift out of
+     step with the others. Floors are applied where legibility needs one. */
+  --fs: 1;
+  --sp: 1;
 }
 
 [data-theme='dark'] {
@@ -315,140 +322,139 @@ html, body { overflow-x: clip; }
   .nav-link { min-height: 68px; padding: 0; border-bottom: 1px solid var(--line); text-align: left; font-size: 29px; letter-spacing: -.03em; color: var(--text); }
   .nav-link.active { text-decoration: none; color: var(--accent); }
   .theme-toggle { min-height: 54px; margin: auto 0 0; justify-content: center; }
-  .hero { padding-block: 70px 90px; }
+  /* Phones share one set of rules. Sizes written against --fs and --sp here
+     are the only definition they get: a narrower tier below re-runs these
+     same declarations by changing the two numbers, so nothing is restated
+     and no page can be scaled differently from another. */
+  /* Display sizes below are fluid: a clamp on vw, defined once, so they shrink
+     continuously with the screen instead of jumping at a device line. --fs is
+     left to govern body and label sizes, which should not shrink as fast as
+     headlines do. */
+  :root { --sp: .88; }
+
+  .hero { padding-block: calc(74px * var(--sp)) calc(96px * var(--sp)); }
   /* Too little width for the labels or the full route; the first three nodes
      keep the shape readable. */
   .hero-system { width: 430px; top: -12px; right: -255px; opacity: .58; }
   .hero-system .system-labels, .hero-system .system-route { display: none; }
   .hero-system .system-nodes circle:nth-child(n+4) { display: none; }
-  .hero h1 { margin-top: 24px; font-size: clamp(45px, 13vw, 62px); line-height: .98; }
-  .hero-bottom { margin-top: 38px; padding-top: 20px; flex-direction: column; gap: 25px; }
-  .hero-bottom > p { font-size: 17px; }
-  .section { padding-bottom: 95px; }
+  .nav-link { min-height: 68px; font-size: calc(29px * var(--fs)); }
+  .hero h1 { margin-top: calc(26px * var(--sp)); font-size: calc(clamp(45px, 13vw, 62px) * var(--fs)); line-height: .98; }
+  .hero-bottom { margin-top: calc(40px * var(--sp)); padding-top: calc(21px * var(--sp)); flex-direction: column; gap: calc(27px * var(--sp)); }
+  .hero-bottom > p { font-size: calc(17px * var(--fs)); }
+  .eyebrow { font-size: max(10px, calc(12px * var(--fs))); }
+  .section { padding-bottom: calc(101px * var(--sp)); }
   .section-heading { flex-direction: column; gap: 6px; }
-  .project-visual.featured { min-height: 335px; padding: 24px; }
+  .section-heading > p:last-child { font-size: calc(14px * var(--fs)); }
+
+  /* Card previews. The crop scales with the tier so a card keeps its
+     proportion to the screen it is on. */
+  .project-visual.featured { min-height: calc(356px * var(--sp)); padding: calc(26px * var(--sp)); }
+  .project-row .project-visual { min-height: calc(277px * var(--sp)); }
+  .case-main > .project-visual { min-height: calc(362px * var(--sp)); padding: calc(27px * var(--sp)); }
+  .case-main > .project-visual .browser { width: 100%; }
   .vote-ui { min-height: 230px; grid-template-columns: 45px 1fr; }
   .side { padding: 15px 10px; }
   .side i { width: 14px; }
   .screen { padding: 24px 17px; }
-  .screen h3 { font-size: 16px; margin-bottom: 18px; }
+  .screen h3 { font-size: calc(16px * var(--fs)); margin-bottom: 18px; }
   .metric-row div { padding: 10px; }
-  .metric-row b { font-size: 11px; }
+  .metric-row b { font-size: max(10px, calc(11px * var(--fs))); }
   .bars { height: 55px; margin-top: 15px; }
-  /* The copy half of a card, not the preview, is what makes it overrun a phone
-     screen. Everything below tightens that block without touching type. */
-  .featured-copy { min-height: auto; padding: 24px 20px 26px; }
+
+  /* The copy half of a card, not the preview, is what makes it overrun. */
+  .featured-copy { min-height: auto; padding: calc(26px * var(--sp)) calc(21px * var(--sp)) calc(28px * var(--sp)); }
   .project-title-line { align-items: flex-start; }
-  .project-title-line h2 { font-size: 40px; }
-  .project-lede { margin-top: 18px; font-size: 16px; }
-  .fact-grid { margin-block: 20px; }
-  .fact-grid div { min-height: 48px; }
-  .featured-copy > .arrow-link { margin-top: 5px; padding-top: 24px; }
-  .project-row, .work-row { padding-block: 32px; grid-template-columns: 1fr; gap: 24px; }
-  .project-row .project-visual { min-height: 260px; }
-  .project-row h3 { font-size: 37px; }
-  .project-row-copy > p { font-size: 16px; }
-  .contact-band { padding-block: 80px 40px; }
-  .contact-band h2 { font-size: 43px; }
-  .email-display { font-size: 26px; }
-  .contact-foot { margin-top: 60px; flex-direction: column; }
+  .project-title-line h2 { font-size: calc(clamp(31px, 9.6vw, 40px) * var(--fs)); }
+  .project-lede { margin-top: calc(19px * var(--sp)); font-size: calc(16px * var(--fs)); }
+  .fact-grid { margin-block: calc(21px * var(--sp)); }
+  .fact-grid div { min-height: calc(51px * var(--sp)); }
+  .fact-grid span, .row-meta, .stack-table span { font-size: max(10px, calc(11px * var(--fs))); }
+  .fact-grid b { font-size: max(10px, calc(12px * var(--fs))); }
+  .chip { font-size: max(10px, calc(11px * var(--fs))); }
+  .status { font-size: max(10px, calc(11px * var(--fs))); }
+  .featured-copy > .arrow-link { margin-top: 5px; padding-top: calc(26px * var(--sp)); }
+  .project-row, .work-row { padding-block: calc(34px * var(--sp)); grid-template-columns: 1fr; gap: calc(26px * var(--sp)); }
+  .project-row h3 { font-size: calc(clamp(29px, 8.8vw, 37px) * var(--fs)); }
+  .project-row-copy > p { font-size: calc(16px * var(--fs)); }
+
+  .contact-band { padding-block: calc(85px * var(--sp)) calc(43px * var(--sp)); }
+  .contact-band h2 { font-size: calc(clamp(34px, 10.4vw, 43px) * var(--fs)); }
+  .email-display { font-size: calc(clamp(22px, 6.3vw, 26px) * var(--fs)); }
+  .contact-foot { margin-top: calc(64px * var(--sp)); flex-direction: column; font-size: calc(14px * var(--fs)); }
   .contact-foot > div { flex-wrap: wrap; gap: 4px 20px; }
-  .footer { padding-block: 25px; flex-direction: column; align-items: flex-start; justify-content: center; }
-  .page-main { padding-block: 65px 95px; }
-  .page-intro { padding-bottom: 55px; }
-  .page-intro h1 { font-size: 55px; line-height: .95; }
-  .page-intro > p:last-child { font-size: 16px; margin-top: 27px; }
-  .case-main { padding-block: 35px 90px; }
-  .case-title-row { margin-top: 32px; align-items: flex-start; flex-direction: column; }
-  .case-title-row h1 { font-size: 57px; }
+  .footer { padding-block: calc(27px * var(--sp)); flex-direction: column; align-items: flex-start; justify-content: center; font-size: max(10px, calc(11px * var(--fs))); }
+
+  .page-main { padding-block: calc(69px * var(--sp)) calc(101px * var(--sp)); }
+  .page-intro { padding-bottom: calc(59px * var(--sp)); }
+  .page-intro h1 { font-size: calc(clamp(42px, 13vw, 55px) * var(--fs)); line-height: .95; }
+  .page-intro > p:last-child { font-size: calc(16px * var(--fs)); margin-top: calc(29px * var(--sp)); }
+
+  .case-main { padding-block: calc(37px * var(--sp)) calc(96px * var(--sp)); }
+  .case-title-row { margin-top: calc(34px * var(--sp)); align-items: flex-start; flex-direction: column; }
+  .case-title-row h1 { font-size: calc(clamp(42px, 13.5vw, 57px) * var(--fs)); }
   .case-title-row > .status { margin: 0; }
-  .case-meta { margin-block: 34px 20px; grid-template-columns: 1fr 1fr; }
+  .case-meta { margin-block: calc(36px * var(--sp)) calc(21px * var(--sp)); grid-template-columns: 1fr 1fr; }
   .case-meta > div:first-child { grid-column: 1 / -1; }
-  .case-main > .project-visual { min-height: 340px; padding: 25px; }
-  .case-main > .project-visual .browser { width: 100%; }
-  /* A case study runs to seven screens on a phone; the air between sections is
-     most of that. Spacing only here — the reading size stays put. */
-  .case-body { margin-top: 48px; }
-  .case-section { padding-block: 38px; grid-template-columns: 1fr; gap: 22px; }
-  .case-content > p { font-size: 17px; }
-  .case-label h2 { margin-top: 9px; }
-  .tradeoffs li { padding-block: 16px; }
-  .gallery { gap: 24px; }
-  .architecture { margin-top: 30px; }
-  .architecture { padding: 18px; grid-template-columns: 1fr; }
-  .architecture > div { min-height: 85px; }
+  .case-meta > div b { font-size: calc(14px * var(--fs)); }
+  .case-body { margin-top: calc(51px * var(--sp)); }
+  .case-section { padding-block: calc(40px * var(--sp)); grid-template-columns: 1fr; gap: calc(23px * var(--sp)); }
+  .case-content > p { font-size: calc(17px * var(--fs)); }
+  .case-label h2 { margin-top: 9px; font-size: calc(clamp(22px, 6.3vw, 26px) * var(--fs)); }
+  .case-label span { font-size: max(10px, calc(11px * var(--fs))); }
+  .tradeoffs li { padding-block: calc(17px * var(--sp)); font-size: calc(17px * var(--fs)); }
+  .gallery { gap: calc(26px * var(--sp)); }
+  .gallery figcaption { font-size: calc(15px * var(--fs)); }
+  .architecture { margin-top: calc(32px * var(--sp)); padding: calc(19px * var(--sp)); grid-template-columns: 1fr; }
+  .architecture > div { min-height: calc(90px * var(--sp)); }
+  .architecture b { font-size: calc(13px * var(--fs)); }
   .architecture > i { transform: rotate(90deg); justify-self: center; }
-  .stack-table div { grid-template-columns: 1fr; gap: 8px; align-items: start; }
-  .case-pagination button { min-height: 125px; padding: 18px; }
-  .case-pagination b { font-size: 17px; }
-  .about-lead { padding-bottom: 70px; grid-template-columns: 1fr; gap: 45px; }
+  .stack-table div { grid-template-columns: 1fr; gap: 8px; align-items: start; min-height: calc(65px * var(--sp)); }
+  .stack-table b { font-size: calc(13px * var(--fs)); }
+  .case-pagination button { min-height: calc(133px * var(--sp)); padding: calc(19px * var(--sp)); }
+  .case-pagination b { font-size: calc(17px * var(--fs)); }
+
+  .about-lead { padding-bottom: calc(74px * var(--sp)); grid-template-columns: 1fr; gap: calc(48px * var(--sp)); }
   .portrait { max-height: none; }
-  .about-copy p { font-size: 21px; }
-  .about-copy p:not(:first-child) { font-size: 17px; }
-  .info-section { padding-block: 48px; grid-template-columns: 1fr; gap: 30px; }
-  .experience-row { grid-template-columns: 1fr; }
+  .about-copy p { margin-bottom: calc(27px * var(--sp)); font-size: calc(21px * var(--fs)); }
+  .about-copy p:not(:first-child) { font-size: calc(17px * var(--fs)); }
+  .info-section { padding-block: calc(51px * var(--sp)); grid-template-columns: 1fr; gap: calc(32px * var(--sp)); }
+  .info-section > h2 { font-size: calc(clamp(21px, 6vw, 25px) * var(--fs)); }
+  .experience-row { grid-template-columns: 1fr; padding-bottom: calc(32px * var(--sp)); margin-bottom: calc(32px * var(--sp)); }
   .experience-row p { grid-column: 1; }
+  .experience-row h3, .education h3 { font-size: calc(18px * var(--fs)); }
   .education { flex-direction: column; gap: 15px; }
-  .tools-grid { grid-template-columns: 1fr; }
-  .cv-actions { align-items: flex-start; flex-direction: column; padding-block: 22px; }
-  .cv-sheet { padding: 28px 22px; }
-  .cv-sheet > header { flex-direction: column; padding-bottom: 45px; }
+  .tools-grid { grid-template-columns: 1fr; gap: calc(32px * var(--sp)); }
+
+  .cv-actions { align-items: flex-start; flex-direction: column; padding-block: calc(23px * var(--sp)); }
+  .cv-sheet { padding: calc(30px * var(--sp)) calc(23px * var(--sp)); }
+  .cv-sheet > header { flex-direction: column; padding-bottom: calc(48px * var(--sp)); }
+  .cv-sheet > header h2 { font-size: calc(clamp(30px, 9.2vw, 38px) * var(--fs)); }
   .cv-sheet > header > div:last-child { align-items: flex-start; overflow-wrap: anywhere; }
-  .cv-section { grid-template-columns: 1fr; gap: 22px; }
-  .cv-entry { grid-template-columns: 1fr; }
+  .cv-section { grid-template-columns: 1fr; gap: calc(23px * var(--sp)); padding-block: calc(42px * var(--sp)); }
+  .cv-section > h2 { font-size: max(10px, calc(11px * var(--fs))); }
+  .cv-entry { grid-template-columns: 1fr; margin-bottom: calc(32px * var(--sp)); }
+  .cv-entry h3 { font-size: calc(17px * var(--fs)); }
   .cv-entry p { grid-column: 1; }
+  .cv-entry .cv-bullets li { font-size: calc(15px * var(--fs)); }
   .cv-tech { grid-template-columns: 1fr; gap: 6px; }
-  .cv-tech p { margin-bottom: 18px; }
-  .contact-grid { padding-top: 40px; grid-template-columns: 1fr; gap: 60px; }
-  .contact-primary > a { font-size: 30px; }
-  .contact-form { padding: 28px 22px; }
+  .cv-tech p { margin-bottom: calc(19px * var(--sp)); }
+
+  .contact-grid { padding-top: calc(42px * var(--sp)); grid-template-columns: 1fr; gap: calc(64px * var(--sp)); }
+  .contact-primary > a { font-size: calc(clamp(25px, 7.2vw, 30px) * var(--fs)); }
+  .contact-form { padding: calc(30px * var(--sp)) calc(23px * var(--sp)); }
+  .contact-form label { margin-bottom: calc(28px * var(--sp)); }
   .drink-ui { padding: 25px; }
   .bottle { margin-right: 0; }
 }
 
 /* Small phones (Galaxy A20 and the like). The layout above already fits here;
-   what it lacks is proportion, so this tier steps the whole type scale down by
-   one notch and trims the vertical rhythm to match. Kept as a single block on
-   purpose: every page scales together, so none of them drifts out of step with
-   the others. */
+   what it lacks is proportion. Every size that needs to change is already
+   written against these two numbers in the block above, so this whole tier is
+   those numbers — which is what keeps the pages in step with each other and
+   means a screen between the two sizes lands on the same system. */
 @media (max-width: 400px) {
-  /* Display and headings */
-  .hero h1 { font-size: clamp(40px, 11.5vw, 54px); }
-  .page-intro h1 { font-size: 46px; }
-  .case-title-row h1 { font-size: 46px; }
-  .contact-band h2 { font-size: 36px; }
-  .project-title-line h2 { font-size: 34px; }
-  .project-row h3 { font-size: 31px; }
-  .cv-sheet > header h2 { font-size: 32px; }
-  .info-section > h2 { font-size: 21px; }
-  .case-label h2 { font-size: 22px; }
-  .case-pagination b { font-size: 16px; }
-  .experience-row h3, .education h3 { font-size: 16px; }
-  .cv-entry h3 { font-size: 16px; }
-
-  /* Body and links */
-  .case-content > p { font-size: 16px; }
-  .about-copy p { font-size: 19px; }
-  .about-copy p:not(:first-child) { font-size: 16px; }
-  .page-intro > p:last-child { font-size: 15px; }
-  .project-lede { font-size: 15px; }
-  .project-row-copy > p { font-size: 15px; }
-  .gallery figcaption { font-size: 14px; }
-  .email-display { font-size: 23px; }
-  .contact-primary > a { font-size: 26px; }
-
-
-  /* The preview half of a card, cropped so a card fits the screen it is on. */
-  .project-visual.featured { min-height: 290px; }
-  .project-row .project-visual { min-height: 220px; }
-
-  /* Vertical rhythm, stepped down with the type so the ratio holds. */
-  .hero { padding-block: 58px 74px; }
-  .section { padding-bottom: 76px; }
-  .page-main { padding-block: 52px 76px; }
-  .contact-band { padding-block: 64px 34px; }
-  .case-section { padding-block: 32px; }
-  .info-section { padding-block: 40px; }
+  :root { --fs: .93; --sp: .76; }
 }
 
 @media print {
