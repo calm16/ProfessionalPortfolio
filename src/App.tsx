@@ -49,9 +49,26 @@ function Nav({ page, navigate, dark, setDark }: { page: string; navigate: (path:
   )
 }
 
+// The panel's light follows the pointer. Values are written as CSS custom
+// properties so the gradient itself stays in the stylesheet.
+function trackPointer(event: React.MouseEvent<HTMLDivElement>) {
+  const box = event.currentTarget.getBoundingClientRect()
+  event.currentTarget.style.setProperty('--mx', `${(((event.clientX - box.left) / box.width) * 100).toFixed(1)}%`)
+  event.currentTarget.style.setProperty('--my', `${(((event.clientY - box.top) / box.height) * 100).toFixed(1)}%`)
+}
+
+function releasePointer(event: React.MouseEvent<HTMLDivElement>) {
+  event.currentTarget.style.removeProperty('--mx')
+  event.currentTarget.style.removeProperty('--my')
+}
+
 function ProjectVisual({ project, featured = false }: { project: Project; featured?: boolean }) {
   return (
-    <div className={`project-visual visual-${project.tone} ${featured ? 'featured' : ''}`}>
+    <div
+      className={`project-visual visual-${project.tone} ${featured ? 'featured' : ''}`}
+      onMouseMove={trackPointer}
+      onMouseLeave={releasePointer}
+    >
       <div className="browser">
         <div className="browser-top"><span /><span /><span /><b>{project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : project.title}</b></div>
         {project.images.length > 0
@@ -346,9 +363,35 @@ function Contact() {
   )
 }
 
+// Fades blocks in as they enter view, once each. The class is added here rather
+// than in the markup so that if this never runs, everything is simply visible.
+function useReveal(page: string) {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const targets = document.querySelectorAll<HTMLElement>(
+      '.featured-project, .project-row, .case-section, .info-section, .cv-section, .contact-band, .about-lead, .gallery figure',
+    )
+    targets.forEach((el) => el.classList.add('reveal'))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      },
+      { rootMargin: '0px 0px -6% 0px', threshold: 0.04 },
+    )
+    targets.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [page])
+}
+
 export default function App() {
   const [page, setPage] = useState(window.location.pathname)
-  const [dark, setDark] = useState(() => localStorage.getItem('eka-theme') === 'dark' || (!localStorage.getItem('eka-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches))
+  // Dark is the default. A visitor's own choice is remembered and wins; their
+  // system setting does not, because the work reads better against dark.
+  const [dark, setDark] = useState(() => localStorage.getItem('eka-theme') !== 'light')
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? 'dark' : 'light'
     localStorage.setItem('eka-theme', dark ? 'dark' : 'light')
@@ -363,6 +406,7 @@ export default function App() {
     setPage(path)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+  useReveal(page)
   const project = page.startsWith('/work/') ? projects.find((p) => `/work/${p.slug}` === page) : undefined
   let content: ReactNode
   if (project) content = <CaseStudy project={project} navigate={navigate} />

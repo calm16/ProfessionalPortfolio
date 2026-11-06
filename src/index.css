@@ -437,3 +437,39 @@
 .gallery a { display: block; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
 .gallery img { display: block; width: 100%; height: auto; }
 .gallery figcaption { margin-top: 12px; max-width: 640px; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+/* --- Motion -------------------------------------------------------------- */
+
+/* Blocks fade up as they enter view. The .reveal class is applied by script,
+   so without it everything renders normally. */
+.reveal { opacity: 0; transform: translateY(8px); }
+.reveal.is-visible {
+  opacity: 1; transform: none;
+  transition: opacity .45s ease-out, transform .45s ease-out;
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.hero .eyebrow { animation: rise .5s .04s both ease-out; }
+.hero h1 { animation: rise .6s .12s both ease-out; }
+.hero-bottom { animation: rise .6s .22s both ease-out; }
+
+/* The panel light tracks the pointer; --mx/--my are set on mousemove and
+   removed on leave, so these defaults are the resting position. */
+.visual-blue {
+  background:
+    radial-gradient(120% 130% at var(--mx, 24%) var(--my, 16%), #5a9bff 0%, #2277ff 42%, #bdd9ff 100%);
+  transition: background-position .2s ease-out;
+}
+.visual-mist {
+  background:
+    radial-gradient(130% 150% at var(--mx, 30%) var(--my, 20%), #e9eff6 0%, var(--surface-mist) 60%);
+}
+.visual-lavender {
+  background:
+    radial-gradient(130% 150% at var(--mx, 30%) var(--my, 20%), #eff1fe 0%, var(--surface-lavender) 60%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+  .hero .eyebrow, .hero h1, .hero-bottom { animation: none; }
+}
