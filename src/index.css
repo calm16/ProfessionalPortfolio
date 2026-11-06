@@ -455,6 +455,14 @@ html, body { overflow-x: clip; }
    means a screen between the two sizes lands on the same system. */
 @media (max-width: 400px) {
   :root { --fs: .93; --sp: .76; }
+
+  /* The nodes sit on grid vertices. At this width they land a row too low —
+     the pair on the second column on the third and fourth vertices, and the
+     lower one past the rule, inside the intro paragraph. One row up puts the
+     pair on the second and third, and the lower one on the grid line that
+     runs just above the rule. The route is hidden here, so the nodes are free
+     of it; 120 is exactly one row of the viewBox. */
+  .hero-system .system-nodes { transform: translateY(-120px); }
 }
 
 @media print {
